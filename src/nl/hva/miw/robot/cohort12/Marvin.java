@@ -24,7 +24,7 @@ public class Marvin {
 	private void run() {
 		TextLCD display = brick.getTextLCD();
 		display.drawString("Welkom!", 0, 3);
-		display.drawString("Team Zero", 0, 4);
+		display.drawString("Team D", 0, 4);
 		waitForKey(Button.ENTER);
 	}
 	
