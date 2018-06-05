@@ -6,6 +6,7 @@ import lejos.hardware.Key;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.utility.Delay;
+import models.*;
 
 public class Marvin {
 	
@@ -18,13 +19,20 @@ public class Marvin {
 	
 	public static void main(String[] args) {
 		Marvin marvin = new Marvin();
+		
 		marvin.run();
 	}
 	
 	private void run() {
+		GrijperMotor grijperMotor = new GrijperMotor();
 		TextLCD display = brick.getTextLCD();
 		display.drawString("Welkom!", 0, 3);
 		display.drawString("Team D", 0, 4);
+		waitForKey(Button.ENTER);
+		grijperMotor.open();
+		grijperMotor.sluit();
+		grijperMotor.open();
+		grijperMotor.sluit();
 		waitForKey(Button.ENTER);
 	}
 	
