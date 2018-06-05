@@ -21,19 +21,45 @@ public class Marvin {
 		Marvin marvin = new Marvin();
 		
 		marvin.run();
+		
 	}
 	
 	private void run() {
-		GrijperMotor grijperMotor = new GrijperMotor();
+		Verplaatsen verplaatsen = new Verplaatsen();
+	//	GrijperMotor grijperMotor = new GrijperMotor();
 		TextLCD display = brick.getTextLCD();
 		display.drawString("Welkom!", 0, 3);
 		display.drawString("Team D", 0, 4);
 		waitForKey(Button.ENTER);
-		grijperMotor.open();
-		grijperMotor.sluit();
-		grijperMotor.open();
-		grijperMotor.sluit();
-		waitForKey(Button.ENTER);
+//		grijperMotor.open();
+//		grijperMotor.sluit();
+//		grijperMotor.open();
+//		grijperMotor.sluit();
+//		waitForKey(Button.ENTER);
+		verplaatsen.motorPower(60, 60);
+		verplaatsen.rijVooruit();
+		Delay.msDelay(4000);
+//		verplaatsen.motorPower(30,30);
+//		Delay.msDelay(2000);
+		verplaatsen.motorPower(0, 0);
+		verplaatsen.rijVooruit();
+		//waitForKey(Button.ENTER);
+		verplaatsen.motorPower(50,50);
+		verplaatsen.rijAchteruit();
+		Delay.msDelay(2000);
+		verplaatsen.motorPower(0, 0);
+		//waitForKey(Button.ENTER);
+		verplaatsen.motorPower(50, 50);
+		verplaatsen.draaiRechts();
+		Delay.msDelay(2000);
+		verplaatsen.motorPower(0, 0);
+		//waitForKey(Button.ENTER);
+		verplaatsen.motorPower(70,30);
+		verplaatsen.draaiLinks();
+		Delay.msDelay(2000);
+		verplaatsen.motorPower(0, 0);
+		//waitForKey(Button.ENTER);
+		
 	}
 	
 	public void waitForKey(Key key) {
@@ -44,4 +70,6 @@ public class Marvin {
 			Delay.msDelay(100);
 		}
 	}
+	
+	
 }
