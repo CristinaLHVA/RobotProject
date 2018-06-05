@@ -14,7 +14,7 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 
 	public ColorTools(Port port) {
 		sensor = new EV3ColorSensor(port);
-		setMode("Ambient");
+		setMode(3);
 		setFloodLight(false);
 	}
 
@@ -23,14 +23,15 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	}
 
 	/*
-	 * Set mode van de color sensor: 
-	 * - Ambient mode = "Ambient" 
-	 * - Red mode = "Red" 
-	 * - Color ID mode = "ColorID" - RGB mode = "RGB"
-	 * 
+	 * Set mode van de color sensor:
+	 * 1. Color ID mode = "ColorID"
+	 * 2. Red mode = "Red" 
+	 * 3. RGB mode = "RGB"
+	 * 4. Ambient mode = "Ambient" 
+	 *  
 	 */
 
-	public void setMode(String mode) {
+	public void setMode(int mode) {
 		sensor.setCurrentMode(mode);
 		sample = new float[sensor.sampleSize()];
 	}
