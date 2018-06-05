@@ -42,7 +42,7 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	/**
 	 * Returns huidige gedetecteerde kleur. Gebruik met Color Id mode.
 	 * 
-	 * @return Color id. Color ids zitten in het Color object.
+	 * @return Color id. Color id's zitten in het Color object.
 	 */
 	@Override
 	public int getColorID() {
