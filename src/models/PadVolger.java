@@ -28,20 +28,28 @@ public class PadVolger extends TakenModule {
 	public void rijPad() {
 		if(intensiteit < 0.25) {
 			verplaatsen.draaiRechts();
-			Delay.msDelay(200);
+//			Delay.msDelay(200);
 			leesLicht();
 		}
 		if(intensiteit > 0.5) {
 			verplaatsen.draaiLinks();
-			Delay.msDelay(200);
+//			Delay.msDelay(200);
 			leesLicht();
 		}
 		else {
 			verplaatsen.rijVooruit();
 //			System.out.println("Is aan het rijden");
-			Delay.msDelay(200);
+	//		Delay.msDelay(200);
 			leesLicht();
 		}
+	}
+	
+	public void rijNaarPad() {
+		while(intensiteit > 0.5) {
+			verplaatsen.rijVooruit();
+		//	Delay.msDelay(200);
+			leesLicht();
+		}		
 	}
 
 }
