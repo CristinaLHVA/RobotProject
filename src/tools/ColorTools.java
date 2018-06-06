@@ -23,14 +23,14 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 
 	/*
 	 * Set mode van de color sensor:
-	 * 0. Red mode = "Red"
-	 * 1. Ambient mode = "Ambient"
-	 * 2. Color ID mode = "ColorID"
+	 * 1. Red mode = "Red"
+	 * 2. Ambient mode = "Ambient"
+	 * 3. Color ID mode = "ColorID"
 	 * 4. RGB mode = "RGB" 
 	 *  
 	 */
 
-	public void setMode(int mode) {
+	public void setMode(String mode) {
 		sensor.setCurrentMode(mode);
 		sample = new float[sensor.sampleSize()];
 	}
@@ -111,6 +111,8 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	public void setFloodLight(boolean on) {
 		sensor.setFloodlight(on);
 	}
+	
+	
 
 	/**
 	 * Set floodlight default led kleur.
