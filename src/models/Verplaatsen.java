@@ -30,7 +30,7 @@ public class Verplaatsen {
 		// rij naar voren
 		motorA.setPower(powerA);
 		motorB.setPower(powerB);
-		System.out.println("Rijvooruit");
+//		System.out.println("Rijvooruit");
 		
 //		motorA.stop();
 //		motorB.stop();

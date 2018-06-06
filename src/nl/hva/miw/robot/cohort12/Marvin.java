@@ -27,11 +27,11 @@ public class Marvin {
 	}
 	
 	private void run() {
-		System.out.println("HOI!");
+		System.out.println("druk op ENTER");
+		waitForKey(Button.ENTER);
 		PadVolger padVolger = new PadVolger();
 		while (Button.ESCAPE.isUp()){
-			waitForKey(Button.ENTER);
-			padVolger.leesLicht();
+			padVolger.rijPad();
 		}
 		System.out.println("Einde Programma");
 		waitForKey(Button.ENTER);
