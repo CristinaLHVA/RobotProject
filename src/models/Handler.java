@@ -19,7 +19,7 @@ public class Handler {
 		beweeg = new Verplaatsen();
 		irSensor.setMode(0);
 		System.out.printf("%d",irSensor.getMode());
-//		float[] range = new float[irSensor.getRanges().length];
+		float[] range = new float[irSensor.getRanges().length];
 //		for (int i = 0; i < range.length; i++) {
 //			if (range[i] > 10) {
 //				beweeg.motorPower(30, 30);
