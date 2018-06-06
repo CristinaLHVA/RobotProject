@@ -5,8 +5,10 @@ import lejos.hardware.Button;
 import lejos.hardware.Key;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
+import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 import models.*;
+import tools.ColorTools;
 
 public class Marvin {
 	
@@ -25,41 +27,14 @@ public class Marvin {
 	}
 	
 	private void run() {
-		Verplaatsen verplaatsen = new Verplaatsen();
-	//	GrijperMotor grijperMotor = new GrijperMotor();
-		TextLCD display = brick.getTextLCD();
-		display.drawString("Welkom!", 0, 3);
-		display.drawString("Team D", 0, 4);
+		System.out.println("druk op ENTER");
 		waitForKey(Button.ENTER);
-//		grijperMotor.open();
-//		grijperMotor.sluit();
-//		grijperMotor.open();
-//		grijperMotor.sluit();
-//		waitForKey(Button.ENTER);
-		verplaatsen.motorPower(60, 60);
-		verplaatsen.rijVooruit();
-		Delay.msDelay(4000);
-//		verplaatsen.motorPower(30,30);
-//		Delay.msDelay(2000);
-		verplaatsen.motorPower(0, 0);
-		verplaatsen.rijVooruit();
-		//waitForKey(Button.ENTER);
-		verplaatsen.motorPower(50,50);
-		verplaatsen.rijAchteruit();
-		Delay.msDelay(2000);
-		verplaatsen.motorPower(0, 0);
-		//waitForKey(Button.ENTER);
-		verplaatsen.motorPower(50, 50);
-		verplaatsen.draaiRechts();
-		Delay.msDelay(2000);
-		verplaatsen.motorPower(0, 0);
-		//waitForKey(Button.ENTER);
-		verplaatsen.motorPower(70,30);
-		verplaatsen.draaiLinks();
-		Delay.msDelay(2000);
-		verplaatsen.motorPower(0, 0);
-		//waitForKey(Button.ENTER);
-		
+		PadVolger padVolger = new PadVolger();
+		while (Button.ESCAPE.isUp()){
+			padVolger.rijPad();
+		}
+		System.out.println("Einde Programma");
+		waitForKey(Button.ENTER);
 	}
 	
 	public void waitForKey(Key key) {
