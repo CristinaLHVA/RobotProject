@@ -15,6 +15,9 @@ public class PadVolger extends TakenModule {
 	Verplaatsen verplaatsen;
 	int vermogen;
 	static final int maxIntensiteit = 60;
+	static final int intensiteitsPrimer = 200;
+	static final double maxDonker = 0.25;
+	static final double minLicht = 0.42;
 	
 	public Verplaatsen getVerplaatsen() {
 		return verplaatsen;
@@ -23,7 +26,7 @@ public class PadVolger extends TakenModule {
 	public PadVolger() {
 		this.padSensor = new ColorTools(SensorPort.S1);
 		verplaatsen = new Verplaatsen();
-		verplaatsen.motorPower(50, 50);
+		verplaatsen.motorPower(70, 70);
 		padSensor.setMode("Red");
 	}
 	
@@ -50,6 +53,17 @@ public class PadVolger extends TakenModule {
 		leesLicht();
 		verplaatsen.motorPower(((int)(intensiteit * vermogen)), (int)((maxIntensiteit - intensiteit * 100) * vermogen / 100));
 		verplaatsen.rijVooruit();
+	}
+	
+	public void rijPadDelta() {
+		leesLicht();
+		if(intensiteit < 0.25) {
+			verplaatsen.motorPower(vermogen, (int)(intensiteit * intensiteitsPrimer / maxDonker) - 100);
+		}
+		if(intensiteit > 0.42) {
+			verplaatsen.motorPower((int)(intensiteit * intensiteitsPrimer / minLicht) - 100, vermogen);
+		}
+		
 	}
 	
 	public void rijNaarPad() {

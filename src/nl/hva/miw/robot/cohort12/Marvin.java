@@ -33,7 +33,7 @@ public class Marvin {
 		padVolger.printLicht();
 		while (Button.ESCAPE.isUp()){
 			padVolger.leesLicht();
-			if(padVolger.getIntensiteit() > 0.25 && padVolger.getIntensiteit() < 0.5) {
+			if(padVolger.getIntensiteit() > 0.25 && padVolger.getIntensiteit() < 0.42) {
 				padVolger.getVerplaatsen().rijVooruit();
 			} else {
 				padVolger.setVermogen(50);
