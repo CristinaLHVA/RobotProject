@@ -34,17 +34,7 @@ public class Marvin {
 //			padVolger.printLicht();
 //			waitForKey(Button.ENTER);
 //		}
-		padVolger.printLicht();
-		while (Button.ESCAPE.isUp()){
-			padVolger.leesLicht();
-			if(padVolger.getIntensiteit() > 0.25 && padVolger.getIntensiteit() < 0.42) {
-				padVolger.getVerplaatsen().rijVooruit();
-			} else {
-				padVolger.setVermogen(50);
-				padVolger.rijPadDelta();
-			}	
-		}
-		padVolger.stop();
+		padVolger.voerUit();
 		System.out.println("Einde Programma");
 		waitForKey(Button.ENTER);
 	}

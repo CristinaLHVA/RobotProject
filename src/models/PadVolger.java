@@ -18,7 +18,7 @@ public class PadVolger extends TakenModule {
 	static final int intensiteitsPrimer = 200;
 	static final double maxDonker = 0.25;
 	static final double minLicht = 0.42;
-	static final double maxLicht = 0.6;
+	double maxLicht;
 	
 	public Verplaatsen getVerplaatsen() {
 		return verplaatsen;
@@ -30,6 +30,25 @@ public class PadVolger extends TakenModule {
 		verplaatsen.motorPower(70, 70);
 		padSensor.setMode("Red");
 	}
+	
+	public void voerUit() {
+		System.out.println("Calibreer wit");
+		Button.ENTER.waitForPress();
+		System.out.printf("Witcalibratie = %f\n", intensiteit);
+		this.maxLicht = intensiteit;
+		System.out.println("Ga naar de start");
+		Button.ENTER.waitForPress();
+		while (Button.ESCAPE.isUp()){
+			leesLicht();
+			setVermogen(50);
+			rijPadDelta();
+			stop();
+		}	
+	}
+		
+		
+		
+
 	
 	public void leesLicht() {
 		intensiteit = padSensor.getRed();	
