@@ -5,6 +5,10 @@ import lejos.hardware.motor.*;
 import lejos.hardware.port.*;
 import lejos.utility.Delay;
 
+/**
+ * @author Cristina
+ *
+ */
 public class Verplaatsen {
 	final static int DUUR_RIJDEN = 2000;
 	final static int DUUR_DRAAI = 1500;
@@ -150,11 +154,7 @@ public class Verplaatsen {
 		// motorA.forward();
 		// motorB.forward();
 
-		// // motor resources vrijgeven
-		// motorA.close();
-		// motorB.close();
-		//
-
+		
 	}
 
 	public void draaiLinksTest() {
@@ -185,6 +185,11 @@ public class Verplaatsen {
 		// motorB.close();
 		//
 
+	}
+	
+	public void close () {
+		motorA.close();
+		motorB.close();
 	}
 
 	// public void draaiInCirkel() {
