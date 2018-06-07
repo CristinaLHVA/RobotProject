@@ -30,9 +30,17 @@ public class Marvin {
 		System.out.println("druk op ENTER");
 		waitForKey(Button.ENTER);
 		PadVolger padVolger = new PadVolger();
+		padVolger.printLicht();
 		while (Button.ESCAPE.isUp()){
-			padVolger.rijPad();
+			padVolger.leesLicht();
+			if(padVolger.getIntensiteit() > 0.25 && padVolger.getIntensiteit() < 0.5) {
+				padVolger.getVerplaatsen().rijVooruit();
+			} else {
+				padVolger.setVermogen(50);
+				padVolger.rijPadBeta();
+			}	
 		}
+		padVolger.stop();
 		System.out.println("Einde Programma");
 		waitForKey(Button.ENTER);
 	}
