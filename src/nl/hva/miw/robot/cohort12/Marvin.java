@@ -30,6 +30,10 @@ public class Marvin {
 		System.out.println("druk op ENTER");
 		waitForKey(Button.ENTER);
 		PadVolger padVolger = new PadVolger();
+//		while (Button.ESCAPE.isUp()) {
+//			padVolger.printLicht();
+//			waitForKey(Button.ENTER);
+//		}
 		padVolger.printLicht();
 		while (Button.ESCAPE.isUp()){
 			padVolger.leesLicht();
@@ -37,7 +41,7 @@ public class Marvin {
 				padVolger.getVerplaatsen().rijVooruit();
 			} else {
 				padVolger.setVermogen(50);
-				padVolger.rijPadBeta();
+				padVolger.rijPadDelta();
 			}	
 		}
 		padVolger.stop();

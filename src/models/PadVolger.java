@@ -18,6 +18,7 @@ public class PadVolger extends TakenModule {
 	static final int intensiteitsPrimer = 200;
 	static final double maxDonker = 0.25;
 	static final double minLicht = 0.42;
+	static final double maxLicht = 0.6;
 	
 	public Verplaatsen getVerplaatsen() {
 		return verplaatsen;
@@ -58,12 +59,17 @@ public class PadVolger extends TakenModule {
 	public void rijPadDelta() {
 		leesLicht();
 		if(intensiteit < 0.25) {
-			verplaatsen.motorPower(vermogen, (int)(intensiteit * intensiteitsPrimer / maxDonker) - 100);
+			verplaatsen.motorPower(vermogen, (int)((vermogen/100) * (intensiteit * intensiteitsPrimer / maxDonker) - 100));
+			verplaatsen.rijVooruit();
 		}
 		if(intensiteit > 0.42) {
-			verplaatsen.motorPower((int)(intensiteit * intensiteitsPrimer / minLicht) - 100, vermogen);
+			verplaatsen.motorPower((int)((vermogen/100)-((((intensiteit-minLicht)/(maxLicht-minLicht)) * intensiteitsPrimer)-100)), vermogen);
+			verplaatsen.rijVooruit();
 		}
-		
+		else {
+			verplaatsen.motorPower(vermogen, vermogen);
+			verplaatsen.rijVooruit();
+		}
 	}
 	
 	public void rijNaarPad() {
