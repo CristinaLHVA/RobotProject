@@ -100,8 +100,8 @@ public class PadVolger extends TakenModule {
 	}
 	
 	public void stop() {
-		verplaatsen.motorPower(0, 0);
-		verplaatsen.rijVooruit();
+		verplaatsen.stop();
+		
 	}
 	
 	public void setVermogen(int vermogen) {

@@ -194,5 +194,12 @@ public class Verplaatsen {
 	// motorB.setPower(30);
 	//
 	// }
+	
+	public void stop() {
+		motorA.stop();
+		motorB.stop();
+		motorA.close();
+		motorB.close();
+	}
 
 }

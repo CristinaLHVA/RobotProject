@@ -1,5 +1,9 @@
 package models;
 
-public class TakenModule {
+public abstract class TakenModule {
+	
+	public abstract void voerUit();
+	
+	public abstract void stop();
 
 }
