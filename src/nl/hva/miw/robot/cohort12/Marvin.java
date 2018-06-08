@@ -13,7 +13,7 @@ import tools.ColorTools;
 public class Marvin {
 	
 	Brick brick;
-	
+	 
 	public Marvin() {
 		super();
 		brick = LocalEV3.get();
@@ -27,6 +27,7 @@ public class Marvin {
 	}
 	
 	private void run() {
+
 		System.out.println("druk op ENTER");
 		waitForKey(Button.ENTER);
 		PadVolger padVolger = new PadVolger();
@@ -37,6 +38,14 @@ public class Marvin {
 		padVolger.voerUit();
 		System.out.println("Einde Programma");
 		waitForKey(Button.ENTER);
+		Handler handler = new Handler();
+		//while (Button.ESCAPE.isUp()){
+			handler.testRun();
+			Delay.msDelay(5000);
+//			handler.testBeacon();
+//			Delay.msDelay(5000);
+		//}
+
 	}
 	
 	public void waitForKey(Key key) {
