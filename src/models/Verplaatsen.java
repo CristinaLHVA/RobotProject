@@ -23,7 +23,7 @@ public class Verplaatsen {
 		this.motorA = new UnregulatedMotor(MotorPort.C);
 		this.motorB = new UnregulatedMotor(MotorPort.D);
 		this.powerA = POWER;
-		this.powerA = POWER;
+		this.powerB = POWER;
 	}
 
 	public void motorPower(int powerA, int powerB) {

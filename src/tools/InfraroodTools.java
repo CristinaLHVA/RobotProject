@@ -97,7 +97,7 @@ public class InfraroodTools implements RangeFinder {
 	@Override
 	public float[] getRanges() {
 		int distanceValue = 0;
-		for (int i = 0; i <= ITERATION_THRESHOLD; i++) {
+		for (int i = 0; i < ITERATION_THRESHOLD; i++) {
 			sample = new float[sp.sampleSize()];
 			sp.fetchSample(sample, OFFSET);
 			distanceValue = (int) sample[OFFSET];
@@ -124,26 +124,34 @@ public class InfraroodTools implements RangeFinder {
 	 * @return
 	 */
 	public float[] getBeacon() {
-		int bHeading1, bDistance1, bHeading2, bDistance2, bHeading3, bDistance3, bHeading4, bDistance4;
+		int bHeading1 = 0;
+		int bDistance1 = 0;
+		int bHeading2 = 0;
+		int bDistance2 = 0;
+		int bHeading3 = 0;
+		int bDistance3 = 0;
+		int bHeading4 = 0;
+		int bDistance4 = 0;
 
-		for (int i = 0; i <= ITERATION_THRESHOLD; i++) {
+		for (int i = 0; i < ITERATION_THRESHOLD; i++) {
 			sample = new float[sp.sampleSize()];
 			sp.fetchSample(sample, OFFSET);
 
 			bHeading1 = (int) sample[0];
 			bDistance1 = (int) sample[1];
+			
+			bHeading2 = (int) sample[2];
+			bDistance2 = (int) sample[3];
+			
+			bHeading3 = (int) sample[4];
+			bDistance3 = (int) sample[5];
+			
+			bHeading4 = (int) sample[6];
+			bDistance4 = (int) sample[7];
 			//
-			// bHeading2 = (int) sample[2];
-			// bDistance2 = (int) sample[3];
-			//
-			// bHeading3 = (int) sample[4];
-			// bDistance3 = (int) sample[5];
-			//
-			// bHeading4 = (int) sample[6];
-			// bDistance4 = (int) sample[7];
-			//
-//			System.out.println("Iteration: " + i);
-//			System.out.println("Beacon Channel 1: Heading " + bHeading1 + ", Distance " + bDistance1);
+			// System.out.println("Iteration: " + i);
+			// System.out.println("Beacon Channel 1: Heading " + bHeading1 + ", Distance " +
+			// bDistance1);
 			// System.out.printf("Beacon Channel 2: Heading %d, Distance %d\n", bHeading2,
 			// bDistance2);
 			// System.out.printf("Beacon Channel 3: Heading %d, Distance %d\n", bHeading3,
@@ -151,7 +159,7 @@ public class InfraroodTools implements RangeFinder {
 			// System.out.printf("Beacon Channel 4: Heading %d, Distance %d\n", bHeading4,
 			// bDistance4);
 
-//			Delay.msDelay(HALF_SECOND);
+			Delay.msDelay(25);
 		}
 		return sample;
 	}
