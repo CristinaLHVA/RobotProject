@@ -11,7 +11,7 @@ import tools.ColorTools;
 public class PadVolger extends TakenModule {
 	
 	ColorTools padSensor;
-	float intensiteit;
+	double intensiteit;
 	Verplaatsen verplaatsen;
 	int vermogen;
 	static final int MAX_INTENSITEIT = 60;
@@ -35,15 +35,20 @@ public class PadVolger extends TakenModule {
 	public void voerUit() {
 		System.out.println("Calibreer wit");
 		Button.ENTER.waitForPress();
-		System.out.printf("Witcalibratie = %f\n", intensiteit);
 		this.maxLicht = intensiteit;
+		System.out.printf("Witcalibratie = %f\n", intensiteit);
 		System.out.println("Ga naar de start");
 		Button.ENTER.waitForPress();
 		while (Button.ESCAPE.isUp()){
 			leesLicht();
 			setVermogen(50);
 			rijPadDelta();
+<<<<<<< Updated upstream
 		}	
+=======
+			
+		}
+>>>>>>> Stashed changes
 		stop();
 	}
 	
@@ -112,7 +117,7 @@ public class PadVolger extends TakenModule {
 		this.vermogen = vermogen;
 	}
 
-	public float getIntensiteit() {
+	public double getIntensiteit() {
 		return intensiteit;
 	}
 }
