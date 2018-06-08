@@ -4,7 +4,7 @@ import lejos.hardware.port.SensorPort;
 import lejos.robotics.Color;
 import lejos.utility.Delay;
 /**
- *  author: Renke
+ *  author: Renke/Bastiën
  */
 import tools.ColorTools;
 
@@ -14,10 +14,11 @@ public class PadVolger extends TakenModule {
 	float intensiteit;
 	Verplaatsen verplaatsen;
 	int vermogen;
-	static final int maxIntensiteit = 60;
-	static final int intensiteitsPrimer = 200;
-	static final double maxDonker = 0.25;
-	static final double minLicht = 0.42;
+	static final int MAX_INTENSITEIT = 60;
+	static final int INTENSITEITSPRIMER = 200;
+	static final int MAX_POWER = 100;
+	static final double MAX_DONKER = 0.25;
+	static final double MIN_LICHT = 0.42;
 	double maxLicht;
 	
 	public Verplaatsen getVerplaatsen() {
@@ -45,21 +46,17 @@ public class PadVolger extends TakenModule {
 		}	
 		stop();
 	}
-		
-		
-		
-
 	
 	public void leesLicht() {
 		intensiteit = padSensor.getRed();	
 	}
 	
 	public void rijPad() {
-		if(intensiteit < maxDonker) {
+		if(intensiteit < MAX_DONKER) {
 			verplaatsen.draaiRechts();
 			leesLicht();
 		}
-		if(intensiteit > minLicht) {
+		if(intensiteit > MIN_LICHT) {
 			verplaatsen.draaiLinks();
 			leesLicht();
 		}
@@ -71,18 +68,18 @@ public class PadVolger extends TakenModule {
 	
 	public void rijPadBeta() {
 		leesLicht();
-		verplaatsen.motorPower(((int)(intensiteit * vermogen)), (int)((maxIntensiteit - intensiteit * 100) * vermogen / 100));
+		verplaatsen.motorPower(((int)(intensiteit * vermogen)), (int)((MIN_LICHT - intensiteit * MAX_POWER) * vermogen / MAX_POWER));
 		verplaatsen.rijVooruit();
 	}
 	
 	public void rijPadDelta() {
 		leesLicht();
-		if(intensiteit < maxDonker) {
-			verplaatsen.motorPower(vermogen, (int)((vermogen/100) * (intensiteit * intensiteitsPrimer / maxDonker) - 100));
+		if(intensiteit < MAX_DONKER) {
+			verplaatsen.motorPower(vermogen, (int)((vermogen/100) * (intensiteit * INTENSITEITSPRIMER / MAX_DONKER) - MAX_POWER));
 			verplaatsen.rijVooruit();
 		}
-		if(intensiteit > minLicht) {
-			verplaatsen.motorPower((int)((vermogen/100)-((((intensiteit-minLicht)/(maxLicht-minLicht)) * intensiteitsPrimer) - 100)), vermogen);
+		if(intensiteit > MIN_LICHT) {
+			verplaatsen.motorPower((int)((vermogen/MAX_POWER)-((((intensiteit-MIN_LICHT)/(maxLicht-MIN_LICHT)) * INTENSITEITSPRIMER) - MAX_POWER)), vermogen);
 			verplaatsen.rijVooruit();
 		}
 		else {
@@ -92,7 +89,7 @@ public class PadVolger extends TakenModule {
 	}
 	
 	public void rijNaarPad() {
-		while(intensiteit > minLicht) {
+		while(intensiteit > MIN_LICHT) {
 			verplaatsen.rijVooruit();
 			leesLicht();
 		}		
