@@ -49,7 +49,7 @@ public class Handler {
 		beweeg.motorPower(0,0);
 		beweeg.rijVooruit();	
 		
-		beweeg.close();
+		beweeg.stop();
 	
 		irSensor.close();
 	}

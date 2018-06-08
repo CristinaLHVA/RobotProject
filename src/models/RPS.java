@@ -4,12 +4,12 @@ import lejos.hardware.Button;
 import lejos.utility.Delay;
 
 /**
- * author: Bastiën
+ * author: Bastiën / Renke
  */
 
 public class RPS extends TakenModule {
 
-	final static int papierHoek = -300; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
+	final static int PAPIERHOEK = 600; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
 	int scoreTegenspeler;
 	int scoreRobbie;
@@ -38,18 +38,18 @@ public class RPS extends TakenModule {
 				System.out.println("Schaar blijft schaar"); // schaar
 				break;
 			case 2:
-				rpsGrijper.open(papierHoek); // papier
+				rpsGrijper.open(PAPIERHOEK); // papier
 				break;
 			case 3:
 				rpsGrijper.sluit(); // steen
 				break;
 			}
 			System.out.println("Wie heeft er gewonnen? Druk links voor Robbie, rechts voor de tegenspeler:");
-
-			if (Button.LEFT.isDown()) {
+			int knop = Button.waitForAnyPress();
+			if (knop == Button.ID_LEFT) {
 				scoreRobbie++;
 			}
-			if (Button.RIGHT.isDown()) {
+			if (knop == Button.ID_RIGHT) {
 				scoreTegenspeler++;
 			}
 
@@ -60,13 +60,15 @@ public class RPS extends TakenModule {
 				rpsGrijper.sluit();
 				break;
 			case 2:
-				rpsGrijper.sluit(300); // eerst sluit je hem tot standaard opening en daarna sluit je hem volledig.
+				rpsGrijper.sluit(PAPIERHOEK); // eerst sluit je hem tot standaard opening en daarna sluit je hem volledig.
 				rpsGrijper.sluit();
 				break;
 			case 3:
 				System.out.println("Was al steen, dus blijft gesloten");
 				break;
 			}
+			aantalRondes++;
+			System.out.printf("Robbie: %d, Mens: %d", scoreRobbie, scoreTegenspeler);
 		}
 		if (scoreRobbie > scoreTegenspeler) { // Robbie gaat juichen!
 			juich();
@@ -96,6 +98,8 @@ public class RPS extends TakenModule {
 		eindeSpelBeweging.rijVooruit();
 		Delay.msDelay(500);
 		eindeSpelBeweging.motorPower(-50, 50);
+		eindeSpelBeweging.rijVooruit();
+		eindeSpelBeweging.motorPower( 25, 25);
 		eindeSpelBeweging.rijVooruit();
 		Delay.msDelay(1500); // deze draai moeten we nog even goed bepalen
 		while (Button.ENTER.isUp()) {
