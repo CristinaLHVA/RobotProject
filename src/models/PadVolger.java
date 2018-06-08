@@ -43,12 +43,7 @@ public class PadVolger extends TakenModule {
 			leesLicht();
 			setVermogen(50);
 			rijPadDelta();
-<<<<<<< Updated upstream
-		}	
-=======
-			
 		}
->>>>>>> Stashed changes
 		stop();
 	}
 	
