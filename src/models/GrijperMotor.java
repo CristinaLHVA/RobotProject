@@ -12,7 +12,6 @@ import lejos.hardware.Button;
 public class GrijperMotor {
 	public static final int OPENINGSROTATIE = 1430;
 	public static final int SNELHEID = 500;
-
 	private EV3MediumRegulatedMotor motor;
 	
 //	de constructor maakt een motor aan

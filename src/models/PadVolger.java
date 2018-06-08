@@ -51,26 +51,28 @@ public class PadVolger extends TakenModule {
 		intensiteit = padSensor.getRed();	
 	}
 	
-	public void rijPad() {
-		if(intensiteit < MAX_DONKER) {
-			verplaatsen.draaiRechts();
-			leesLicht();
-		}
-		if(intensiteit > MIN_LICHT) {
-			verplaatsen.draaiLinks();
-			leesLicht();
-		}
-		else {
-			verplaatsen.rijVooruit();
-			leesLicht();
-		}
-	}
+	//Deze method wordt momenteel niet meer gebruikt en is eigenlijk vervangen door rijPadBeta
+//	public void rijPad() {
+//		if(intensiteit < MAX_DONKER) {
+//			verplaatsen.draaiRechts();
+//			leesLicht();
+//		}
+//		if(intensiteit > MIN_LICHT) {
+//			verplaatsen.draaiLinks();
+//			leesLicht();
+//		}
+//		else {
+//			verplaatsen.rijVooruit();
+//			leesLicht();
+//		}
+//	}
 	
-	public void rijPadBeta() {
-		leesLicht();
-		verplaatsen.motorPower(((int)(intensiteit * vermogen)), (int)((MIN_LICHT - intensiteit * MAX_POWER) * vermogen / MAX_POWER));
-		verplaatsen.rijVooruit();
-	}
+	//Deze method wordt momenteel niet meer gebruikt en is eigenlijk vervangen door rijPadDelta
+//	public void rijPadBeta() {
+//		leesLicht();
+//		verplaatsen.motorPower(((int)(intensiteit * vermogen)), (int)((MIN_LICHT - intensiteit * MAX_POWER) * vermogen / MAX_POWER));
+//		verplaatsen.rijVooruit();
+//	}
 	
 	public void rijPadDelta() {
 		leesLicht();
@@ -88,6 +90,7 @@ public class PadVolger extends TakenModule {
 		}
 	}
 	
+	// deze method zou ervoor moeten kunnen zorgen dan Robbie weer richting het pad gaat. Nog niet gebruikt/getest
 	public void rijNaarPad() {
 		while(intensiteit > MIN_LICHT) {
 			verplaatsen.rijVooruit();
@@ -100,18 +103,16 @@ public class PadVolger extends TakenModule {
 		
 	}
 	
-	public void setVermogen(int vermogen) {
-		this.vermogen = vermogen;
-	}
-	
 	public void printLicht() {
 		leesLicht();
 		System.out.println(intensiteit);
+	}
+	
+	public void setVermogen(int vermogen) {
+		this.vermogen = vermogen;
 	}
 
 	public float getIntensiteit() {
 		return intensiteit;
 	}
-	
-	
 }
