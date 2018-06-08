@@ -42,8 +42,8 @@ public class PadVolger extends TakenModule {
 			leesLicht();
 			setVermogen(50);
 			rijPadDelta();
-			stop();
 		}	
+		stop();
 	}
 		
 		
@@ -55,11 +55,11 @@ public class PadVolger extends TakenModule {
 	}
 	
 	public void rijPad() {
-		if(intensiteit < 0.25) {
+		if(intensiteit < maxDonker) {
 			verplaatsen.draaiRechts();
 			leesLicht();
 		}
-		if(intensiteit > 0.5) {
+		if(intensiteit > minLicht) {
 			verplaatsen.draaiLinks();
 			leesLicht();
 		}
@@ -77,12 +77,12 @@ public class PadVolger extends TakenModule {
 	
 	public void rijPadDelta() {
 		leesLicht();
-		if(intensiteit < 0.25) {
+		if(intensiteit < maxDonker) {
 			verplaatsen.motorPower(vermogen, (int)((vermogen/100) * (intensiteit * intensiteitsPrimer / maxDonker) - 100));
 			verplaatsen.rijVooruit();
 		}
-		if(intensiteit > 0.42) {
-			verplaatsen.motorPower((int)((vermogen/100)-((((intensiteit-minLicht)/(maxLicht-minLicht)) * intensiteitsPrimer)-100)), vermogen);
+		if(intensiteit > minLicht) {
+			verplaatsen.motorPower((int)((vermogen/100)-((((intensiteit-minLicht)/(maxLicht-minLicht)) * intensiteitsPrimer) - 100)), vermogen);
 			verplaatsen.rijVooruit();
 		}
 		else {
@@ -92,9 +92,8 @@ public class PadVolger extends TakenModule {
 	}
 	
 	public void rijNaarPad() {
-		while(intensiteit > 0.5) {
+		while(intensiteit > minLicht) {
 			verplaatsen.rijVooruit();
-		//	Delay.msDelay(200);
 			leesLicht();
 		}		
 	}
