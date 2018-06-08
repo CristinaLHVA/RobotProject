@@ -61,11 +61,11 @@ public class Handler extends TakenModule {
 //			System.out.println(beacon[i]);
 //		}
 		while (distance > 38) {
-			if (distance > 60) {
+			if (distance > 55) {
 				beweeg.motorPower(30, 30);
 				beweeg.rijVooruit();
 				distance = irSensor.getBeacon()[5];
-			} else if (distance < 50 && distance > 38) {
+			} else if (distance < 55 && distance > 38) {
 				beweeg.motorPower(20, 20);
 				beweeg.rijVooruit();
 				distance = irSensor.getBeacon()[5];
@@ -83,10 +83,10 @@ public class Handler extends TakenModule {
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
 		grijper.sluit();
-		beweeg.motorPower(40, 60);
+		beweeg.motorPower(30, 70);
 		beweeg.rijVooruit();
 		Delay.msDelay(4400);
-		beweeg.motorPower(50, 50);
+		beweeg.motorPower(60, 60);
 		beweeg.rijVooruit();
 		Delay.msDelay(5000);
 		beweeg.motorPower(0, 0);

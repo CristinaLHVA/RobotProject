@@ -47,8 +47,8 @@ public class Marvin {
 			Delay.msDelay(5000);
 			
 		}
-		RPS rps = new RPS();
-		rps.voerUit();
+//		RPS rps = new RPS();
+//		rps.voerUit();
 
 	}
 	
