@@ -54,5 +54,4 @@ public class GrijperMotor {
 		this.motor.setSpeed(SNELHEID);
 		this.motor.rotate(-hoek);
 	}
-
 }
