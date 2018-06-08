@@ -28,25 +28,27 @@ public class Marvin {
 	
 	private void run() {
 
-//		System.out.println("druk op ENTER");
+		System.out.println("druk op ENTER");
 //		waitForKey(Button.ENTER);
 //		PadVolger padVolger = new PadVolger();
-//		while (Button.ESCAPE.isUp()) {
-//			padVolger.printLicht();
-//			waitForKey(Button.ENTER);
-//		}
+////		while (Button.ESCAPE.isUp()) {
+////			padVolger.printLicht();
+////			waitForKey(Button.ENTER);
+////		}
 //		padVolger.voerUit();
 //		System.out.println("Einde Programma");
-//		waitForKey(Button.ENTER);
-//		Handler handler = new Handler();
-//		while (Button.ESCAPE.isUp()){
+		waitForKey(Button.ENTER);
+		System.out.println("Beacon zoeken gestart...");
+		Handler handler = new Handler();
+		while (Button.ESCAPE.isUp()){
 //			handler.testRun();
 //			Delay.msDelay(5000);
-//			handler.testBeacon();
-//			Delay.msDelay(5000);
-//		}
-			RPS rps = new RPS();
-			rps.voerUit();
+			handler.testBeacon();
+			Delay.msDelay(5000);
+			
+		}
+		RPS rps = new RPS();
+		rps.voerUit();
 
 	}
 	
