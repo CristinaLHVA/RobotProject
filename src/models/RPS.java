@@ -69,26 +69,38 @@ public class RPS extends TakenModule {
 			}
 		}
 		if (scoreRobbie > scoreTegenspeler) { // Robbie gaat juichen!
-			eindeSpelBeweging.draaiRechts();
-			while (Button.ENTER.isUp()) {
-				rpsGrijper.open();
-				rpsGrijper.sluit();
-			}
-		} else {
-			// robbie zal nee schudden, zich omdraaien en wegrijden
-			eindeSpelBeweging.draaiRechts();
-			Delay.msDelay(500);
-			eindeSpelBeweging.draaiLinks();
-			Delay.msDelay(500);
-			eindeSpelBeweging.draaiRechts();
-			Delay.msDelay(500);
-			eindeSpelBeweging.draaiLinks();
-			Delay.msDelay(1500); // deze draai moeten we nog even goed bepalen
-			while (Button.ENTER.isUp()) {
-				eindeSpelBeweging.rijVooruit();
-			}
-		}
+			juich();
+		} else
+			weesVerdrietig();
 		stop();
+	}
+
+	public void juich() {
+		eindeSpelBeweging.motorPower(100, -100);
+		eindeSpelBeweging.rijVooruit();
+		while (Button.ENTER.isUp()) {
+			rpsGrijper.open();
+			rpsGrijper.sluit();
+		}
+	}
+
+	public void weesVerdrietig() {
+		// robbie zal nee schudden, zich omdraaien en wegrijden
+		eindeSpelBeweging.motorPower(50, -50);
+		eindeSpelBeweging.rijVooruit();
+		Delay.msDelay(500);
+		eindeSpelBeweging.motorPower(-50, 50);
+		eindeSpelBeweging.rijVooruit();
+		Delay.msDelay(500);
+		eindeSpelBeweging.motorPower(50, -50);
+		eindeSpelBeweging.rijVooruit();
+		Delay.msDelay(500);
+		eindeSpelBeweging.motorPower(-50, 50);
+		eindeSpelBeweging.rijVooruit();
+		Delay.msDelay(1500); // deze draai moeten we nog even goed bepalen
+		while (Button.ENTER.isUp()) {
+			eindeSpelBeweging.rijVooruit();
+		}
 	}
 
 	public void stop() {
