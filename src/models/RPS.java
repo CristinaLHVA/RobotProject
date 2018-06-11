@@ -1,7 +1,9 @@
 package models;
 
 import lejos.hardware.Button;
+import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
+import tools.InfraroodTools;
 
 /**
  * author: Bastiën / Renke
@@ -9,28 +11,34 @@ import lejos.utility.Delay;
 
 public class RPS extends TakenModule {
 
-	final static int PAPIERHOEK = 600; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
+	final static int PAPIERHOEK = 1700; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
 	int scoreTegenspeler;
 	int scoreRobbie;
 	int aantalRondes = 0;
+	float range;
 	GrijperMotor rpsGrijper;
 	Verplaatsen eindeSpelBeweging;
+	InfraroodTools handSensor;
 
 	public RPS() {
 		this.rpsGrijper = new GrijperMotor();
 		this.eindeSpelBeweging = new Verplaatsen();
+		this.handSensor = new InfraroodTools(SensorPort.S2);
 	}
 
 	public void voerUit() {
 		while (aantalRondes <= 3 || scoreRobbie == scoreTegenspeler) {
 			System.out.println("Druk op enter om de ronde te starten");
 			Button.ENTER.waitForPress();
-
-			// Het Robbie-equivalent van 1... 2... GO!
-			rpsGrijper.open();
-			rpsGrijper.sluit();
-			rpsGrijper.open();
+			handSensor.setMode(0);
+			range = handSensor.getRange();//hiermee voer ik de eerste meting uit
+			while(!(range < 100)) { //zolang die meting niet minder is dan 100 blijft hij opnieuw meten
+				rpsGrijper.open(); 	// Het Robbie-equivalent van 1... 2... GO!
+				rpsGrijper.sluit();
+				range = handSensor.getRange();
+			}
+			//als de meting eronder komt, start het programma
 
 			int robbieHand = (int) (Math.random() * 3) + 1;
 			switch (robbieHand) {
@@ -70,6 +78,7 @@ public class RPS extends TakenModule {
 			aantalRondes++;
 			System.out.printf("Robbie: %d, Mens: %d", scoreRobbie, scoreTegenspeler);
 		}
+
 		if (scoreRobbie > scoreTegenspeler) { // Robbie gaat juichen!
 			juich();
 		} else
@@ -78,11 +87,11 @@ public class RPS extends TakenModule {
 	}
 
 	public void juich() {
-		eindeSpelBeweging.motorPower(100, -100);
-		eindeSpelBeweging.rijVooruit();
-		while (Button.ENTER.isUp()) {
-			rpsGrijper.open();
-			rpsGrijper.sluit();
+			while (Button.ENTER.isUp()) {
+				eindeSpelBeweging.motorPower(100, -100);
+				eindeSpelBeweging.rijVooruit();
+				rpsGrijper.open();
+				rpsGrijper.sluit();
 		}
 	}
 
@@ -108,6 +117,7 @@ public class RPS extends TakenModule {
 
 	public void stop() {
 		eindeSpelBeweging.stop();
+		handSensor.close();
 	}
 
 }

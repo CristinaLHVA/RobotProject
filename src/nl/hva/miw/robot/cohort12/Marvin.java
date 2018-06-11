@@ -38,18 +38,16 @@ public class Marvin {
 //		padVolger.voerUit();
 //		System.out.println("Einde Programma");
 		waitForKey(Button.ENTER);
-		System.out.println("Beacon zoeken gestart...");
-		Handler handler = new Handler();
-		while (Button.ESCAPE.isUp()){
+//		System.out.println("Beacon zoeken gestart...");
+//		Handler handler = new Handler();
+//		while (Button.ESCAPE.isUp()){
 //			handler.testRun();
 //			Delay.msDelay(5000);
-			handler.testBeacon();
-			Delay.msDelay(5000);
+//			handler.testBeacon();
+//			Delay.msDelay(5000);
 			
-		}
-//		RPS rps = new RPS();
-//		rps.voerUit();
-
+		RPS rps = new RPS();
+		rps.voerUit();
 	}
 	
 	public void waitForKey(Key key) {
