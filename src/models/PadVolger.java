@@ -19,11 +19,12 @@ public class PadVolger extends TakenModule {
 		this.vermogenRechtdoor = vermogenRechtdoor;
 	}
 
-	static final int INTENSITEITSPRIMER = 200;
-	static final int MAX_POWER = 100;
-	static final double MAX_DONKER = 0.25; //maximale hoeveelheid donker voor we het zwart noemen
+	public static final int INTENSITEITSPRIMER = 200;
+	public static final int MAX_POWER = 100;
+	public static final double MAX_DONKER = 0.25; //maximale hoeveelheid donker voor we het zwart noemen
 										//Hiertussen ligt de sweetspot waar Robbie continu naar moet streven
-	static final double MIN_LICHT = 0.42; //de minste hoeveelheid intensiteit voor we het wit noemen
+	public static final double MIN_LICHT = 0.42; //de minste hoeveelheid intensiteit voor we het wit noemen
+	public static final int ACHTERUITPOWER = 100;
 	double maxLicht;
 	
 	public Verplaatsen getVerplaatsen() {
@@ -85,11 +86,11 @@ public class PadVolger extends TakenModule {
 	public void rijPadDelta() {
 		leesLicht();
 		if(intensiteit < MAX_DONKER) {
-			verplaatsen.motorPower(vermogenBocht, (int)((vermogenBocht/100) * (intensiteit * INTENSITEITSPRIMER / MAX_DONKER) - MAX_POWER));
+			verplaatsen.motorPower(vermogenBocht, (int)((vermogenBocht/MAX_POWER) * ((intensiteit/ MAX_DONKER) * (MAX_POWER+ACHTERUITPOWER)) - ACHTERUITPOWER));
 			verplaatsen.rijVooruit();
 		}
 		if(intensiteit > MIN_LICHT) {
-			verplaatsen.motorPower((int)((vermogenBocht/MAX_POWER)-((((intensiteit-MIN_LICHT)/(maxLicht-MIN_LICHT)) * INTENSITEITSPRIMER) - MAX_POWER)), vermogenBocht);
+			verplaatsen.motorPower((int)((vermogenBocht/MAX_POWER)-((((intensiteit-MIN_LICHT)/(maxLicht-MIN_LICHT)) * (MAX_POWER+ACHTERUITPOWER)) - ACHTERUITPOWER)), vermogenBocht);
 			verplaatsen.rijVooruit();
 		}
 		else {
