@@ -27,28 +27,56 @@ public class Marvin {
 	}
 	
 	private void run() {
-
-		System.out.println("druk op ENTER");
+		int knop = 0;
+	
+		while (knop != Button.ID_ESCAPE) {
+			System.out.printf("Druk \n-links voor Padvolger, \n-beneden voor Handler, \n-rechts voor RPS, \n-escape voor stop");
+			knop = Button.waitForAnyPress();
+			if (knop == Button.ID_LEFT) {
+				PadVolger padVolger = new PadVolger();
+				padVolger.voerUit();
+				padVolger.stop();
+			}
+			if (knop == Button.ID_DOWN){
+				Handler handler = new Handler();
+				handler.voerUit();
+				handler.stop();
+			}
+			if (knop == Button.ID_RIGHT) {
+				RPS rps = new RPS();
+				rps.voerUit();
+				rps.stop();
+			}
+		}
+		System.out.println("Einde programma, druk op een toets om af te sluiten");
+		Button.waitForAnyPress();
+	}	
+		
 //		waitForKey(Button.ENTER);
 //		PadVolger padVolger = new PadVolger();
-////		while (Button.ESCAPE.isUp()) {
-////			padVolger.printLicht();
-////			waitForKey(Button.ENTER);
-////		}
 //		padVolger.voerUit();
+//		while (Button.ESCAPE.isUp()) {
+//			padVolger.printLicht();
+//			waitForKey(Button.ENTER);
+//		}
+
 //		System.out.println("Einde Programma");
-		waitForKey(Button.ENTER);
-//		System.out.println("Beacon zoeken gestart...");
+
+//		waitForKey(("Beacon zoeken gestart...");
 //		Handler handler = new Handler();
 //		while (Button.ESCAPE.isUp()){
 //			handler.testRun();
-//			Delay.msDelay(5000);
+//			Delay.msDeButto.ENTER);
+
+//		System.out.printlnlay(5000);
 //			handler.testBeacon();
 //			Delay.msDelay(5000);
-			
-		RPS rps = new RPS();
-		rps.voerUit();
-	}
+
+//		}
+//		RPS rps = new RPS();
+//		rps.voerUit();
+//
+//	}
 	
 	public void waitForKey(Key key) {
 		while(key.isUp()) {
