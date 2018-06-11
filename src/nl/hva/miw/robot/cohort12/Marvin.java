@@ -34,23 +34,29 @@ public class Marvin {
 		int knop = 0;
 		while (knop != Button.ID_ESCAPE) {
 			wisScherm();
-			System.out.printf("Druk \n-links voor Padvolger, \n-beneden voor Handler, \n-rechts voor RPS, \n-escape voor stop");
+			System.out.printf("Druk \n-links voor Padvolger, \n-beneden voor Handler, \n-rechts voor RPS, \n-omhoog voor Kanon"
+					+ "\n-escape voor stop");
 			knop = Button.waitForAnyPress();
 			wisScherm();
 			if (knop == Button.ID_LEFT) {
-				PadVolger padVolger = new PadVolger();
+				TakenModule padVolger = new PadVolger();
 				padVolger.voerUit();
 				padVolger.stop();
 			}
 			if (knop == Button.ID_DOWN){
-				Handler handler = new Handler();
+				TakenModule handler = new Handler();
 				handler.voerUit();
 				handler.stop();
 			}
 			if (knop == Button.ID_RIGHT) {
-				RPS rps = new RPS();
+				TakenModule rps = new RPS();
 				rps.voerUit();
 				rps.stop();
+			}
+			if (knop == Button.ID_UP) {
+				TakenModule kanon = new Kanon();
+				kanon.voerUit();
+				kanon.stop();
 			}
 		}
 		System.out.println("Einde programma, druk op een toets om af te sluiten");
