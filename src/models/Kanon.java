@@ -11,7 +11,7 @@ import lejos.utility.Delay;
 public class Kanon extends TakenModule{
 	
 	private UnregulatedMotor kanonMotor;
-	private final int POWER = 50;//default motorpower voor het kanon 
+	private final int POWER = 100;//default motorpower voor het kanon 
 	
 	
 	public Kanon() {
@@ -21,9 +21,9 @@ public class Kanon extends TakenModule{
 	public void schiet() {
 		kanonMotor.setPower(POWER);
 		kanonMotor.backward();
-		Delay.msDelay(300);
+		Delay.msDelay(2000);
 		kanonMotor.forward();
-		Delay.msDelay(300);
+		Delay.msDelay(2000);
 		stop();
 	}
 
