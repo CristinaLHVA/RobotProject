@@ -10,10 +10,15 @@ import tools.ColorTools;
 
 public class PadVolger extends TakenModule {
 	
-	ColorTools padSensor;
-	double intensiteit;
-	Verplaatsen verplaatsen;
-	int vermogen;
+	private ColorTools padSensor;
+	private double intensiteit;
+	private Verplaatsen verplaatsen;
+	private int vermogenBocht;
+	private int vermogenRechtdoor;
+	public void setVermogenRechtdoor(int vermogenRechtdoor) {
+		this.vermogenRechtdoor = vermogenRechtdoor;
+	}
+
 	static final int INTENSITEITSPRIMER = 200;
 	static final int MAX_POWER = 100;
 	static final double MAX_DONKER = 0.25; //maximale hoeveelheid donker voor we het zwart noemen
@@ -40,10 +45,11 @@ public class PadVolger extends TakenModule {
 		System.out.printf("Witcalibratie = %f\n", intensiteit);
 		System.out.println("Druk op enter bij de start");
 		Button.ENTER.waitForPress();
-		System.out.println("Druk naar beneden om te stoppen");
-		while (Button.DOWN.isUp()){
+		System.out.println("Druk omhoog om te stoppen");
+		while (Button.UP.isUp()){
 			leesLicht();
-			setVermogen(50);
+			setVermogenBocht(50);
+			setVermogenRechtdoor(50);
 			rijPadDelta();
 		}
 		stop();
@@ -79,15 +85,15 @@ public class PadVolger extends TakenModule {
 	public void rijPadDelta() {
 		leesLicht();
 		if(intensiteit < MAX_DONKER) {
-			verplaatsen.motorPower(vermogen, (int)((vermogen/100) * (intensiteit * INTENSITEITSPRIMER / MAX_DONKER) - MAX_POWER));
+			verplaatsen.motorPower(vermogenBocht, (int)((vermogenBocht/100) * (intensiteit * INTENSITEITSPRIMER / MAX_DONKER) - MAX_POWER));
 			verplaatsen.rijVooruit();
 		}
 		if(intensiteit > MIN_LICHT) {
-			verplaatsen.motorPower((int)((vermogen/MAX_POWER)-((((intensiteit-MIN_LICHT)/(maxLicht-MIN_LICHT)) * INTENSITEITSPRIMER) - MAX_POWER)), vermogen);
+			verplaatsen.motorPower((int)((vermogenBocht/MAX_POWER)-((((intensiteit-MIN_LICHT)/(maxLicht-MIN_LICHT)) * INTENSITEITSPRIMER) - MAX_POWER)), vermogenBocht);
 			verplaatsen.rijVooruit();
 		}
 		else {
-			verplaatsen.motorPower(vermogen, vermogen);
+			verplaatsen.motorPower(vermogenRechtdoor, vermogenRechtdoor);
 			verplaatsen.rijVooruit();
 		}
 	}
@@ -112,11 +118,12 @@ public class PadVolger extends TakenModule {
 		System.out.println(intensiteit);
 	}
 	
-	public void setVermogen(int vermogen) {
-		this.vermogen = vermogen;
+	public void setVermogenBocht(int vermogen) {
+		this.vermogenBocht = vermogen;
 	}
 
 	public double getIntensiteit() {
 		return intensiteit;
 	}
+	
 }

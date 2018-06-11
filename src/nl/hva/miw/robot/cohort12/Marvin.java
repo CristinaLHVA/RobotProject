@@ -5,8 +5,11 @@ import lejos.hardware.Button;
 import lejos.hardware.Key;
 import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
+import lejos.hardware.lcd.LCD;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.SensorPort;
+import lejos.remote.ev3.RMIRemoteTextLCD;
+import lejos.remote.ev3.RemoteTextLCD;
 import lejos.utility.Delay;
 import models.*;
 import tools.ColorTools;
@@ -29,10 +32,11 @@ public class Marvin {
 	
 	private void run() {
 		int knop = 0;
-	
 		while (knop != Button.ID_ESCAPE) {
+			wisScherm();
 			System.out.printf("Druk \n-links voor Padvolger, \n-beneden voor Handler, \n-rechts voor RPS, \n-escape voor stop");
 			knop = Button.waitForAnyPress();
+			wisScherm();
 			if (knop == Button.ID_LEFT) {
 				PadVolger padVolger = new PadVolger();
 				padVolger.voerUit();
@@ -86,6 +90,12 @@ public class Marvin {
 		}
 		while(key.isDown()) {
 			Delay.msDelay(100);
+		}
+	}
+	
+	public void wisScherm() {
+		for(int regel = 0; regel < 8; regel++) {
+			System.out.println();
 		}
 	}
 	
