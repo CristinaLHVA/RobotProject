@@ -31,11 +31,12 @@ public class RPS extends TakenModule {
 		while (aantalRondes <= 3 || scoreRobbie == scoreTegenspeler) {
 			System.out.println("Druk op enter om de ronde te starten");
 			Button.ENTER.waitForPress();
+			rpsGrijper.open(); 	// Het Robbie-equivalent van 1... 2... GO!
+			rpsGrijper.sluit();
+			rpsGrijper.open(); 
 			handSensor.setMode(0);
 			range = handSensor.getRange();//hiermee voer ik de eerste meting uit
 			while(!(range < 100)) { //zolang die meting niet minder is dan 100 blijft hij opnieuw meten
-				rpsGrijper.open(); 	// Het Robbie-equivalent van 1... 2... GO!
-				rpsGrijper.sluit();
 				range = handSensor.getRange();
 			}
 			//als de meting eronder komt, start het programma

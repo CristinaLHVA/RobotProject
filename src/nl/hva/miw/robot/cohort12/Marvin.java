@@ -3,6 +3,7 @@ package nl.hva.miw.robot.cohort12;
 import lejos.hardware.Brick;
 import lejos.hardware.Button;
 import lejos.hardware.Key;
+import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.SensorPort;
@@ -71,12 +72,19 @@ public class Marvin {
 //		System.out.printlnlay(5000);
 //			handler.testBeacon();
 //			Delay.msDelay(5000);
+<<<<<<< Updated upstream
 
 //		}
 //		RPS rps = new RPS();
 //		rps.voerUit();
 //
 //	}
+=======
+			
+//		RPS rps = new RPS();
+//		rps.voerUit();
+	}
+>>>>>>> Stashed changes
 	
 	public void waitForKey(Key key) {
 		while(key.isUp()) {
