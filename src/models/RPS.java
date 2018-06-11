@@ -14,10 +14,12 @@ public class RPS extends TakenModule {
 
 	final static int PAPIERHOEK = 1700; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
+	public final static int MAXRONDES = 3;
 	int scoreTegenspeler;
 	int scoreRobbie;
 	int aantalRondes = 0;
 	float range;
+
 	GrijperMotor rpsGrijper;
 	Verplaatsen eindeSpelBeweging;
 	InfraroodTools handSensor;
@@ -29,7 +31,7 @@ public class RPS extends TakenModule {
 	}
 
 	public void voerUit() {
-		while (aantalRondes <= 3 || scoreRobbie == scoreTegenspeler) {
+		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) {
 			System.out.println("Druk op enter om de ronde te starten");
 			Button.ENTER.waitForPress();
 			rpsGrijper.open(); 	// Het Robbie-equivalent van 1... 2... GO!

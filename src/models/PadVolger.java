@@ -38,9 +38,10 @@ public class PadVolger extends TakenModule {
 		Button.ENTER.waitForPress();
 		this.maxLicht = intensiteit;
 		System.out.printf("Witcalibratie = %f\n", intensiteit);
-		System.out.println("Ga naar de start");
+		System.out.println("Druk op enter bij de start");
 		Button.ENTER.waitForPress();
-		while (Button.ESCAPE.isUp()){
+		System.out.println("Druk naar beneden om te stoppen");
+		while (Button.DOWN.isUp()){
 			leesLicht();
 			setVermogen(50);
 			rijPadDelta();
@@ -102,6 +103,7 @@ public class PadVolger extends TakenModule {
 	
 	public void stop() {
 		verplaatsen.stop();
+		padSensor.close();
 		
 	}
 	
