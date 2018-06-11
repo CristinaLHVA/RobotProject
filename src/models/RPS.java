@@ -1,6 +1,7 @@
 package models;
 
 import lejos.hardware.Button;
+import lejos.hardware.Sound;
 import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 import tools.InfraroodTools;
@@ -57,10 +58,13 @@ public class RPS extends TakenModule {
 			int knop = Button.waitForAnyPress();
 			if (knop == Button.ID_LEFT) {
 				scoreRobbie++;
+				happyMel();
 			}
 			if (knop == Button.ID_RIGHT) {
 				scoreTegenspeler++;
+				sadMel();
 			}
+			else neutralMel();
 
 			// Vervolgens gaan we de actie weer ongedaan maken zodat we aan de eventuele
 			// volgende ronde kunnen beginnen
@@ -119,6 +123,25 @@ public class RPS extends TakenModule {
 	public void stop() {
 		eindeSpelBeweging.stop();
 		handSensor.close();
+	}
+	
+	public void sadMel() {
+		 Sound.playTone(523, 333, 75);
+		 Sound.playTone(494, 333, 75);
+		 Sound.playTone(466, 333, 75);
+		 Sound.playTone(440, 333, 75);
+	}
+	
+	public void happyMel() {
+		Sound.playTone(523, 333, 75);
+		Sound.playTone(523, 50, 75);
+		Sound.playTone(523, 50, 75);
+		Sound.playTone(784, 1500, 75);
+	}
+	
+	public void neutralMel() {
+		 Sound.playTone(523, 333, 75);
+		 Sound.playTone(440, 333, 75);
 	}
 
 }

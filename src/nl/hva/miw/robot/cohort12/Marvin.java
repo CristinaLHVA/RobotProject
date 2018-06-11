@@ -78,9 +78,7 @@ public class Marvin {
 //		rps.voerUit();
 //
 //	}
-			
-//		RPS rps = new RPS();
-//		rps.voerUit();
+
 	
 	public void waitForKey(Key key) {
 		while(key.isUp()) {
