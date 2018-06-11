@@ -1,10 +1,8 @@
 package models;
 
 import java.io.File;
-import java.util.Scanner;
 
-import javax.swing.plaf.BorderUIResource.BevelBorderUIResource;
-
+import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
@@ -16,6 +14,9 @@ public class Handler extends TakenModule {
 	Verplaatsen beweeg = new Verplaatsen();
 	GrijperMotor grijper = new GrijperMotor();
 	File beer = new File("Robot-C12-D/Beerx3Mono.wav");
+	private final static float BEACON_NOT_FOUND = 1.0f / 0.0f;
+	private final static float CENTER = 0;
+	private int power;
 
 	public Handler() {
 		this.irSensor = new InfraroodTools(SensorPort.S2);
@@ -25,7 +26,13 @@ public class Handler extends TakenModule {
 		// Sensor op distance mode zetten
 		irSensor.setMode(0);
 		// Afstand opvragen en rijden
-		float distance = irSensor.getRange();
+		float distance = 0;
+		try {
+			distance = irSensor.getRange();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		while (distance > 30) {
 			beweeg.motorPower(50, 50);
 			beweeg.rijVooruit();
@@ -70,22 +77,85 @@ public class Handler extends TakenModule {
 		irSensor.close();
 	}
 
+	// public void stuurLinks(int power) {
+	// beweeg.motorPower(power, -power);
+	// beweeg.rijVooruit();
+	// }
+	//
+	// public void stuurRecht(int power) {
+	//
+	// }
+	//
+	// public void rechtDoor(int power) {
+	//
+	// }
+
 	public void zoekVoorwerp() {
 		// Sensor in beacon modus zetten
 		irSensor.setMode(1);
-		// Zoeken naar de beacon
 		// Afstand en richting van beacon opvragen (kanaal 3)
-		float distance = irSensor.getBeacon()[5];
+		float heading = irSensor.getBeacon()[2];
+		float distance = irSensor.getBeacon()[3];
+		// Zoeken naar de beacon
+		// do {
+		// beweeg.motorPower(20, -20);
+		// beweeg.rijVooruit();
+		// heading = irSensor.getBeacon()[4];
+		// System.out.println("Heading: " + heading);
+		// } while ((heading < -5 || heading > 5) && heading != 0);
+		// distance = irSensor.getBeacon()[3];
+		// // Stoppen met zoeken en bevestig gevonden beacon
+		// beweeg.motorPower(0, 0);
+		// beweeg.rijVooruit();
+		Sound.twoBeeps();
+
 		// Rijden naar de beacon !! met bijsturen waar nodig !!
-		while (distance > 38) {
-			if (distance > 55) {
-				beweeg.motorPower(30, 30);
-				beweeg.rijVooruit();
-				distance = irSensor.getBeacon()[5];
-			} else if (distance < 55 && distance > 38) {
-				beweeg.motorPower(20, 20);
-				beweeg.rijVooruit();
-				distance = irSensor.getBeacon()[5];
+		while (distance > 28) {
+			if (distance > 90) {
+				if (heading < -2) {
+					power = (int) (((CENTER - heading) * 100) / 50);
+					beweeg.motorPower(power, 15);
+					beweeg.rijVooruit();
+					heading = irSensor.getBeacon()[4];
+					distance = irSensor.getBeacon()[5];
+					System.out.println("Heading: " + heading);
+				} else if (heading > 2) {
+					power = (int) (((CENTER - heading) * 100) / 50);
+					beweeg.motorPower(15, power);
+					beweeg.rijVooruit();
+					heading = irSensor.getBeacon()[4];
+					distance = irSensor.getBeacon()[5];
+					System.out.println("Heading: " + heading);
+				} else {
+					beweeg.motorPower(30, 30);
+					beweeg.rijVooruit();
+					heading = irSensor.getBeacon()[4];
+					distance = irSensor.getBeacon()[5];
+					System.out.println("Heading: " + heading);
+				}
+			} else if (distance < 55 && distance > 28) {
+
+				if (heading < -2) {
+					power = (int) (((CENTER - heading) * 100) / 50);
+					beweeg.motorPower(power, 10);
+					beweeg.rijVooruit();
+					heading = irSensor.getBeacon()[4];
+					distance = irSensor.getBeacon()[5];
+					System.out.println("Heading: " + heading);
+				} else if (heading > 2) {
+					power = (int) (((CENTER - heading) * 100) / 50);
+					beweeg.motorPower(10, power);
+					beweeg.rijVooruit();
+					heading = irSensor.getBeacon()[4];
+					distance = irSensor.getBeacon()[5];
+					System.out.println("Heading: " + heading);
+				} else {
+					beweeg.motorPower(20, 20);
+					beweeg.rijVooruit();
+					heading = irSensor.getBeacon()[4];
+					distance = irSensor.getBeacon()[5];
+					System.out.println("Heading: " + heading);
+				}
 			} else {
 				break;
 			}
@@ -102,16 +172,20 @@ public class Handler extends TakenModule {
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
 		grijper.sluit();
-		// Zoeken naar de beacon
+
 		// Draaien in de goede richting (tweede beacon?)
+		beweeg.motorPower(50, -50);
+		beweeg.rijVooruit();
+		Delay.msDelay(1500);
 		// Terug rijden en 'beer beer beer' afspelen !! met bijsturen !!
 		beweeg.motorPower(50, 50);
 		beweeg.rijVooruit();
-		Sound.playSample(beer);
-		Delay.msDelay(5000);
+		Sound.beepSequence();
 		// Stoppen
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
+		System.out.println("Heading: " + heading + " " + "Distance: " + distance);
+		Delay.msDelay(5000);
 
 		beweeg.stop();
 		irSensor.close();
@@ -207,7 +281,9 @@ public class Handler extends TakenModule {
 
 	@Override
 	public void voerUit() {
-		pakVoorwerp();
+		// pakVoorwerp();
+		zoekVoorwerp();
+		Delay.msDelay(5000);
 
 	}
 
