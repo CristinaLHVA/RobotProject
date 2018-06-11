@@ -14,7 +14,6 @@ public class PadVolger extends TakenModule {
 	double intensiteit;
 	Verplaatsen verplaatsen;
 	int vermogen;
-	static final int MAX_INTENSITEIT = 60;
 	static final int INTENSITEITSPRIMER = 200;
 	static final int MAX_POWER = 100;
 	static final double MAX_DONKER = 0.25; //maximale hoeveelheid donker voor we het zwart noemen
@@ -36,6 +35,7 @@ public class PadVolger extends TakenModule {
 	public void voerUit() {
 		System.out.println("Calibreer wit");
 		Button.ENTER.waitForPress();
+		leesLicht();
 		this.maxLicht = intensiteit;
 		System.out.printf("Witcalibratie = %f\n", intensiteit);
 		System.out.println("Druk op enter bij de start");
