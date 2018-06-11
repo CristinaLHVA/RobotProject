@@ -15,19 +15,20 @@ public class RPS extends TakenModule {
 	final static int PAPIERHOEK = 1700; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
 	public final static int MAXRONDES = 3;
-	int scoreTegenspeler;
-	int scoreRobbie;
-	int aantalRondes = 0;
-	float range;
-
-	GrijperMotor rpsGrijper;
-	Verplaatsen eindeSpelBeweging;
-	InfraroodTools handSensor;
+	private int scoreTegenspeler;
+	private int scoreRobbie;
+	private int aantalRondes = 0;
+	private float range;
+	private GrijperMotor rpsGrijper;
+	private Verplaatsen eindeSpelBeweging;
+	private InfraroodTools handSensor;
+	private Kanon kanon;
 
 	public RPS() {
 		this.rpsGrijper = new GrijperMotor();
 		this.eindeSpelBeweging = new Verplaatsen();
 		this.handSensor = new InfraroodTools(SensorPort.S2);
+		this.kanon = new Kanon();
 	}
 
 	public void voerUit() {
@@ -66,8 +67,9 @@ public class RPS extends TakenModule {
 				scoreTegenspeler++;
 				sadMel();
 			}
-			else neutralMel();
-
+			if (knop == Button.ID_ENTER) {
+				neutralMel();
+			}
 			// Vervolgens gaan we de actie weer ongedaan maken zodat we aan de eventuele
 			// volgende ronde kunnen beginnen
 			switch (robbieHand) {
@@ -115,7 +117,16 @@ public class RPS extends TakenModule {
 		Delay.msDelay(500);
 		eindeSpelBeweging.motorPower(-50, 50);
 		eindeSpelBeweging.rijVooruit();
-		Delay.msDelay(1500); // deze draai moeten we nog even goed bepalen
+		Delay.msDelay(1900); // deze draai moeten we nog even goed bepalen
+		kanon.voerUit();
+		eindeSpelBeweging.motorPower(50, -50);
+		eindeSpelBeweging.rijVooruit();
+		Delay.msDelay(700);
+		kanon.voerUit();
+		eindeSpelBeweging.motorPower(-50, 50);
+		eindeSpelBeweging.rijVooruit();
+		Delay.msDelay(500);
+		kanon.voerUit();
 		eindeSpelBeweging.motorPower( 25, 25);
 		while (Button.ENTER.isUp()) {
 			eindeSpelBeweging.rijVooruit();
@@ -128,17 +139,17 @@ public class RPS extends TakenModule {
 	}
 	
 	public void sadMel() {
-		 Sound.playTone(523, 333, 75);
-		 Sound.playTone(494, 333, 75);
-		 Sound.playTone(466, 333, 75);
-		 Sound.playTone(440, 333, 75);
+		 Sound.playTone(523, 180, 75);
+		 Sound.playTone(494, 180, 75);
+		 Sound.playTone(466, 180, 75);
+		 Sound.playTone(440, 180, 75);
 	}
 	
 	public void happyMel() {
-		Sound.playTone(523, 333, 75);
-		Sound.playTone(523, 50, 75);
-		Sound.playTone(523, 50, 75);
-		Sound.playTone(784, 1500, 75);
+		Sound.playTone(523, 300, 75);
+		Sound.playTone(523, 125, 75);
+		Sound.playTone(523, 125, 75);
+		Sound.playTone(784, 2000, 75);
 	}
 	
 	public void neutralMel() {

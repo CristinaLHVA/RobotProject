@@ -79,7 +79,7 @@ public class Marvin {
 //
 //	}
 
-	
+
 	public void waitForKey(Key key) {
 		while(key.isUp()) {
 			Delay.msDelay(100);
