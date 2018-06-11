@@ -99,9 +99,8 @@ public class RPS extends TakenModule {
 		Delay.msDelay(500);
 		eindeSpelBeweging.motorPower(-50, 50);
 		eindeSpelBeweging.rijVooruit();
-		eindeSpelBeweging.motorPower( 25, 25);
-		eindeSpelBeweging.rijVooruit();
 		Delay.msDelay(1500); // deze draai moeten we nog even goed bepalen
+		eindeSpelBeweging.motorPower( 25, 25);
 		while (Button.ENTER.isUp()) {
 			eindeSpelBeweging.rijVooruit();
 		}
