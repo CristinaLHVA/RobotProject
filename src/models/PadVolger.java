@@ -17,8 +17,9 @@ public class PadVolger extends TakenModule {
 	static final int MAX_INTENSITEIT = 60;
 	static final int INTENSITEITSPRIMER = 200;
 	static final int MAX_POWER = 100;
-	static final double MAX_DONKER = 0.25;
-	static final double MIN_LICHT = 0.42;
+	static final double MAX_DONKER = 0.25; //maximale hoeveelheid donker voor we het zwart noemen
+										//Hiertussen ligt de sweetspot waar Robbie continu naar moet streven
+	static final double MIN_LICHT = 0.42; //de minste hoeveelheid intensiteit voor we het wit noemen
 	double maxLicht;
 	
 	public Verplaatsen getVerplaatsen() {
@@ -91,6 +92,7 @@ public class PadVolger extends TakenModule {
 	}
 	
 	// deze method zou ervoor moeten kunnen zorgen dan Robbie weer richting het pad gaat. Nog niet gebruikt/getest
+	// deze method zouden we kunnen gebruiken om te starten
 	public void rijNaarPad() {
 		while(intensiteit > MIN_LICHT) {
 			verplaatsen.rijVooruit();
