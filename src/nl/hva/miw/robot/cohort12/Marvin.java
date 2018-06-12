@@ -1,5 +1,4 @@
 package nl.hva.miw.robot.cohort12;
-
 import lejos.hardware.Brick;
 import lejos.hardware.Button;
 import lejos.hardware.Key;

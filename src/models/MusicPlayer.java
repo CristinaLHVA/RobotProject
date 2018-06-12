@@ -1,7 +1,5 @@
 package models;
-
 import java.io.File;
-
 import lejos.hardware.Sound;
 
 public class MusicPlayer extends TakenModule implements Runnable {

@@ -1,8 +1,7 @@
 package models;
 import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
-import lejos.robotics.Color;
-import lejos.utility.Delay;
+
 /**
  *  author: Renke/Bastiën
  */

@@ -1,7 +1,5 @@
 package models;
-
 import lejos.hardware.Button;
-import lejos.hardware.Sound;
 import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 import tools.InfraroodTools;

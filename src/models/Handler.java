@@ -1,7 +1,5 @@
 package models;
-
 import java.io.File;
-
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.port.SensorPort;

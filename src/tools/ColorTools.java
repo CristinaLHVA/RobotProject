@@ -1,5 +1,4 @@
 package tools;
-
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.Color;
