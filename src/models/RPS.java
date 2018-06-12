@@ -10,7 +10,7 @@ import tools.InfraroodTools;
  * author: Bastiën / Renke
  */
 
-public class RPS extends TakenModule implements Runnable{
+public class RPS extends TakenModule implements Runnable {
 
 	final static int PAPIERHOEK = 1800; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
@@ -19,6 +19,7 @@ public class RPS extends TakenModule implements Runnable{
 	private int scoreRobbie;
 	private int aantalRondes = 0;
 	private float range;
+	private int robbieHand;
 	private GrijperMotor rpsGrijper;
 	private Verplaatsen eindeSpelBeweging;
 	private InfraroodTools handSensor;
@@ -34,38 +35,44 @@ public class RPS extends TakenModule implements Runnable{
 	}
 
 	public void voerUit() {
-		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) {
+		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
 			System.out.println("Druk op enter om de ronde te starten");
-			//Button.ENTER.waitForPress();
-			rpsGrijper.open(); 	// Het Robbie-equivalent van 1... 2... GO!
+			Button.ENTER.waitForPress();
+			rpsGrijper.open(); // Het Robbie-equivalent van 1... 2... GO!
 			rpsGrijper.sluit();
-			rpsGrijper.open(); 
+			rpsGrijper.open();
 			handSensor.setMode(0);
 
 			try {
-				range = handSensor.getRange();//hiermee voer ik de eerste meting uit
+				range = handSensor.getRange();// hiermee voer ik de eerste meting uit, zonder die try/catch geeft hij af
+												// en toe een foutmelding aan het einde van het programma
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			while(!(range < 100)) { //zolang die meting niet minder is dan 100 blijft hij opnieuw meten
+			while (!(range < 100)) { // zolang die meting niet minder is dan 100 blijft hij opnieuw meten
 				range = handSensor.getRange();
 			}
-			//als de meting eronder komt, start het programma
+			// als de meting eronder komt, start het programma (dan heeft hij je hand
+			// gezien)
 
-			int robbieHand = (int) (Math.random() * 3) + 1;
+			robbieHand = (int) (Math.random() * 3) + 1;
 			switch (robbieHand) {
 			case 1:
 				System.out.println("Schaar blijft schaar"); // schaar
+				musicPlayer.bewegingKlaarToon();
 				break;
 			case 2:
 				rpsGrijper.open(PAPIERHOEK); // papier
+				musicPlayer.bewegingKlaarToon();
 				break;
 			case 3:
 				rpsGrijper.sluit(); // steen
+				musicPlayer.bewegingKlaarToon();
 				break;
 			}
-			System.out.println("Wie heeft er gewonnen? Druk links voor Robbie, rechts voor de tegenspeler:");
+			System.out.println("Wie heeft er gewonnen?");
+			System.out.printf("Links = Robbie\nRechts = tegenspeler: ");
 			int knop = Button.waitForAnyPress();
 			if (knop == Button.ID_LEFT) {
 				scoreRobbie++;
@@ -83,13 +90,16 @@ public class RPS extends TakenModule implements Runnable{
 			switch (robbieHand) {
 			case 1:
 				rpsGrijper.sluit();
+				musicPlayer.bewegingKlaarToon();
 				break;
 			case 2:
-				rpsGrijper.sluit(PAPIERHOEK); // eerst sluit je hem tot standaard opening en daarna sluit je hem volledig.
-				rpsGrijper.sluit();
+				rpsGrijper.sluit(PAPIERHOEK + GrijperMotor.OPENINGSROTATIE);// opening resetten en teruggaan naar
+																			// openingsrotatie
+				musicPlayer.bewegingKlaarToon();
 				break;
 			case 3:
 				System.out.println("Was al steen, dus blijft gesloten");
+				musicPlayer.bewegingKlaarToon();
 				break;
 			}
 			aantalRondes++;
@@ -104,16 +114,17 @@ public class RPS extends TakenModule implements Runnable{
 	}
 
 	public void juich() {
-			while (Button.ENTER.isUp()) {
-				eindeSpelBeweging.motorPower(100, -100);
-				eindeSpelBeweging.rijVooruit();
-				rpsGrijper.open();
-				rpsGrijper.sluit();
+		while (Button.ENTER.isUp()) {
+			eindeSpelBeweging.motorPower(100, -100);
+			eindeSpelBeweging.rijVooruit();
+			rpsGrijper.open();
+			rpsGrijper.sluit();
 		}
 	}
 
 	public void weesVerdrietig() {
-		// robbie zal nee schudden, zich omdraaien en wegrijden
+		// robbie zal nee schudden, zich omdraaien en wegrijden. Daarnaast schiet hij
+		// met zijn kanon
 		eindeSpelBeweging.motorPower(50, -50);
 		eindeSpelBeweging.rijVooruit();
 		Delay.msDelay(500);
@@ -135,7 +146,7 @@ public class RPS extends TakenModule implements Runnable{
 		eindeSpelBeweging.rijVooruit();
 		Delay.msDelay(500);
 		kanon.voerUit();
-		eindeSpelBeweging.motorPower( 25, 25);
+		eindeSpelBeweging.motorPower(25, 25);
 		while (Button.ENTER.isUp()) {
 			eindeSpelBeweging.rijVooruit();
 		}

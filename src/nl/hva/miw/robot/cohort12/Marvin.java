@@ -39,7 +39,7 @@ public class Marvin {
 			knop = Button.waitForAnyPress();
 			wisScherm();
 			if (knop == Button.ID_LEFT) {
-				TakenModule padVolger = new MultiThread(MusicPlayer.PADVOLGER_MODE);
+				TakenModule padVolger = new MultiThread();
 				padVolger.voerUit();
 				padVolger.stop();
 			}
