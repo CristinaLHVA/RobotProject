@@ -135,7 +135,11 @@ public class InfraroodTools implements RangeFinder {
 
 		for (int i = 0; i < ITERATION_THRESHOLD; i++) {
 			sample = new float[sp.sampleSize()];
-			sp.fetchSample(sample, OFFSET);
+			try {
+				sp.fetchSample(sample, OFFSET);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			bHeading1 = (int) sample[0];
 			bDistance1 = (int) sample[1];
