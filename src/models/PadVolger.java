@@ -37,13 +37,13 @@ public class PadVolger extends TakenModule {
 	}
 	
 	public void voerUit() {
-		System.out.println("Calibreer wit");
-		Button.ENTER.waitForPress();
+//		System.out.println("Calibreer wit");
+//		Button.ENTER.waitForPress();
 		leesLicht();
 		this.maxLicht = intensiteit;
 		System.out.printf("Witcalibratie = %f\n", intensiteit);
-		System.out.println("Druk op enter bij de start");
-		Button.ENTER.waitForPress();
+//		System.out.println("Druk op enter bij de start");
+//		Button.ENTER.waitForPress();
 		System.out.println("Druk omhoog om te stoppen");
 		while (Button.UP.isUp()){
 			setVermogenBocht(30);
@@ -72,7 +72,7 @@ public class PadVolger extends TakenModule {
 		leesLicht();
 		if (intensiteit > MIN_LICHT) {
 			spiraalTimer++;
-			verplaatsen.motorPower((int) (((-1/spiraalTimer) + 1) * vermogenBocht), vermogenBocht);
+			verplaatsen.motorPower((int) (((-2/Math.pow(spiraalTimer, 40)) + 1) * vermogenBocht), vermogenBocht);
 			verplaatsen.rijVooruit();
 		}
 		else {
