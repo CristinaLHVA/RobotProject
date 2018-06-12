@@ -7,8 +7,8 @@ import lejos.hardware.Sound;
 public class MusicPlayer extends TakenModule implements Runnable {
 	
 	int mode;
-	private final static int modeRPS = 1;
-	private final static int modePadVolger = 2;
+	public final static int RPS_MODE = 1;
+	public final static int PADVOLGER_MODE = 2;
 	
 	public MusicPlayer() {
 		
@@ -18,10 +18,10 @@ public class MusicPlayer extends TakenModule implements Runnable {
 		this.mode = mode;
 	}
 	public void voerUit() {
-		if(mode == modeRPS) {
+		if(mode == RPS_MODE) {
 			playRPSTheme();
 		}
-		if(mode == modePadVolger) {
+		if(mode == PADVOLGER_MODE) {
 			playPadVolgerTheme();
 		}
 	}
