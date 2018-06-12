@@ -34,7 +34,7 @@ public class Marvin {
 		int knop = 0;
 		while (knop != Button.ID_ESCAPE) {
 			wisScherm();
-			System.out.printf("Druk \n-links voor Padvolger, \n-beneden voor Handler, \n-rechts voor RPS, \n-omhoog voor Kanon"
+			System.out.printf("links = Padvolger, \nbeneden = Handler, \nrechts = RPS, \nomhoog = Kanon"
 					+ "\n-escape voor stop");
 			knop = Button.waitForAnyPress();
 			wisScherm();

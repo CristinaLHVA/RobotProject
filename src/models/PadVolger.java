@@ -25,7 +25,7 @@ public class PadVolger extends TakenModule implements Runnable {
 										//Hiertussen ligt de sweetspot waar Robbie continu naar moet streven
 	public static final double MIN_LICHT = 0.42; //de minste hoeveelheid intensiteit voor we het wit noemen
 	public static final int ACHTERUITPOWER = 100;
-	public static final int MAX_TIJD_VAN_PAD = 1000;
+	public static final int MAX_TIJD_VAN_PAD = 10000;
 
 	public PadVolger() {
 		this.padSensor = new ColorTools(SensorPort.S1);
@@ -72,7 +72,7 @@ public class PadVolger extends TakenModule implements Runnable {
 		leesLicht();
 		if (intensiteit > MIN_LICHT) {
 			spiraalTimer++;
-			verplaatsen.motorPower((int) (((-2/Math.pow(spiraalTimer, 40)) + 1) * vermogenBocht), vermogenBocht);
+			verplaatsen.motorPower((int) (((-2/Math.pow(spiraalTimer, 5)) + 1) * vermogenBocht), vermogenBocht);
 			verplaatsen.rijVooruit();
 		}
 		else {
