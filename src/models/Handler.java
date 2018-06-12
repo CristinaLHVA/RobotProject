@@ -39,7 +39,7 @@ public class Handler extends TakenModule {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		while (distance > 25) {//rijden tot bij de voorwerp en afstand opniew opvragen
+		while (distance > 28) {//rijden tot bij de voorwerp en afstand opniew opvragen
 			beweeg.motorPower(50, 50);
 			beweeg.rijVooruit();
 			distance = irSensor.getRange();
@@ -52,7 +52,7 @@ public class Handler extends TakenModule {
 		// Stukje vooruit rijden 
 		beweeg.motorPower(20, 20);
 		beweeg.rijVooruit();
-		Delay.msDelay(4000);
+		Delay.msDelay(3400);
 		// Stoppen en object oppaken
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
@@ -61,32 +61,32 @@ public class Handler extends TakenModule {
 		// Draaien naar de originele rijrichting
 		beweeg.motorPower(50, -50);
 		beweeg.rijVooruit();
-		Delay.msDelay(1500);
+		Delay.msDelay(2000);//aangepast
 		// Stoppen met draaien en recht zetten
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
-		beweeg.motorPower(-50, 50);
+		beweeg.motorPower(-50, 50);//naar links draaien
 		beweeg.rijVooruit();
-		Delay.msDelay(100);
-		beweeg.motorPower(0, 0);
+		Delay.msDelay(500);
+		beweeg.motorPower(0, 0);//stoppen
 		beweeg.rijVooruit();
 		// Terug rijden + 'Beer beer beer' afspelen
-		beweeg.motorPower(50, 50);
+		beweeg.motorPower(50, 50);//rijdt terug
 		beweeg.rijVooruit();
 //		Sound.playSample(beer, 100);
 		Delay.msDelay(5000);
 		// Stoppen en armen open
-		beweeg.motorPower(0, 0);
+		beweeg.motorPower(0, 0);//stopt
 		beweeg.rijVooruit();
-		grijper.open();
+		grijper.open();//open armen
 		// Stukje acheteruit rijden
-		beweeg.motorPower(-30, -30);
+		beweeg.motorPower(-30, -30); //rijdt naar achteruit
 		beweeg.rijVooruit();
 		Delay.msDelay(4000);
 		// Stoppen en armen sluiten
-		beweeg.motorPower(0, 0);
+		beweeg.motorPower(0, 0);//stopt
 		beweeg.rijVooruit();
-		grijper.sluit();
+		grijper.sluit();//sluit armen
 	}
 
 	public void zoekVoorwerp() {
@@ -94,32 +94,32 @@ public class Handler extends TakenModule {
 		irSensor.setMode(1);
 		// Afstand en richting van beacon opvragen (kanaal 3)
 		float heading = irSensor.getBeacon()[HEADING_CHANNEL];
-		float distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
-		Sound.twoBeeps();
+		float distance = irSensor.getBeacon()[DISTANCE_CHANNEL];//distance in percentage gebaseerd op de proximity range
+		Sound.twoBeeps();//klaar om te starten
 		System.out.println("Heading: " + heading + "Distance: " + distance);
-		beweeg.motorPower(30, 30);
+		beweeg.motorPower(40, 40);//rijdt 2 seconden in de richting van het object/beacon
 		beweeg.rijVooruit();
-		Delay.msDelay(1000);
+		Delay.msDelay(2000);
 		System.out.println("Heading: " + heading + "Distance: " + distance);
 
-		// Rijden naar de beacon !! met bijsturen waar nodig !!
+		// Rijden naar de beacon 
 		while (distance > 5) {
 			// if (distance > 20) {
 			// power = (int) (40 - (2*heading));
-			if (heading < -1 && distance < 100) {
-				beweeg.motorPower((int) (20 + (2 * heading)), 20);
+			if (heading < -1 ) {
+				beweeg.motorPower((int) (20 + (3 * heading)), 20);//corigeert de afwijking, doel is heading = 0 
 				beweeg.rijVooruit();
 				heading = irSensor.getBeacon()[HEADING_CHANNEL];
 				distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
 				System.out.println("Heading: " + heading + "Distance: " + distance);
-			} else if (heading > 1 && distance < 100) {
-				beweeg.motorPower(20, (int) (20 - (2 * heading)));
+			} else if (heading > 1 ) {
+				beweeg.motorPower(20, (int) (20 - (3 * heading)));//corigeert de afwijking, doel is heading = 0
 				beweeg.rijVooruit();
 				heading = irSensor.getBeacon()[HEADING_CHANNEL];
 				distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
 				System.out.println("Heading: " + heading + "Distance: " + distance);
 			} else {
-				beweeg.motorPower(30, 30);
+				beweeg.motorPower(30, 30);//hij rijdt op de beacon af
 				beweeg.rijVooruit();
 				heading = irSensor.getBeacon()[HEADING_CHANNEL];
 				distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
@@ -151,82 +151,45 @@ public class Handler extends TakenModule {
 			// }
 		}
 		// Stoppen en armen openen
-		beweeg.motorPower(0, 0);
+		beweeg.motorPower(0, 0);//als hij dichter bij is dan 5, hij stopt met zoeken en stopt
 		beweeg.rijVooruit();
-		grijper.open();
+		grijper.open();//opent de armen
 		// Stukje vooruit rijden
-		beweeg.motorPower(20, 20);
+		beweeg.motorPower(20, 20);//rijdt naar voren om object/becaon op te pakken
 		beweeg.rijVooruit();
 		Delay.msDelay(4000);
 		// Stoppen en armen sluiten
-		beweeg.motorPower(0, 0);
+		beweeg.motorPower(0, 0);//stopt
 		beweeg.rijVooruit();
-		grijper.sluit();
+		grijper.sluit();//pakt object/beacon op
 
 		// Draaien in de goede richting (tweede beacon?)
-		beweeg.motorPower(50, -50);
+		beweeg.motorPower(50, -50);//hij draait terug
 		beweeg.rijVooruit();
-		Delay.msDelay(1500);
-		// Terug rijden en 'beer beer beer' afspelen !! met bijsturen !!
-		beweeg.motorPower(50, 50);
+		Delay.msDelay(2000);
+		beweeg.motorPower(0, 0);//stopt
+		beweeg.rijVooruit();
+		beweeg.motorPower(-50, 50);//corigeert positie van achter wielen
+		beweeg.rijVooruit();
+		Delay.msDelay(500);
+		// Terug rijden en 'beer beer beer' afspelen 
+		beweeg.motorPower(50, 50);//rijdt vooruit met object
 		beweeg.rijVooruit();
 //		Sound.playSample(beer, 100);
 		Delay.msDelay(5000);
 		// Stoppen en armen open
-		beweeg.motorPower(0, 0);
+		beweeg.motorPower(0, 0);//stopt
 		beweeg.rijVooruit();
-		grijper.open();
+		grijper.open();//laat object/beacon los
 		// Stukje acheteruit rijden
-		beweeg.motorPower(-30, -30);
+		beweeg.motorPower(-30, -30);//rijdt achteruit
 		beweeg.rijVooruit();
 		Delay.msDelay(4000);
 		// Stoppen en armen sluiten
-		beweeg.motorPower(0, 0);
+		beweeg.motorPower(0, 0);//stopt
 		beweeg.rijVooruit();
-		grijper.sluit();
+		grijper.sluit();//sluit armen
 
-	}
-
-	
-	public void testRemote() {
-		switch (irSensor.getSensor().getRemoteCommand(1)) {
-		case 0:
-			System.out.println("Geen knop ingedrukt");
-			break;
-		case 1:
-			System.out.println("Rood Boven ingedrukt");
-			break;
-		case 2:
-			System.out.println("Rood Onder ingedrukt");
-			break;
-		case 3:
-			System.out.println("Blauw Boven ingedrukt");
-			break;
-		case 4:
-			System.out.println("Blauw Onder ingedrukt");
-			break;
-		case 5:
-			System.out.println("Rood Boven EN Blauw Boven ingedrukt");
-			break;
-		case 6:
-			System.out.println("Rood Boven EN Blauw onder ingedrukt");
-			break;
-		case 7:
-			System.out.println("Rood Onder en Blauw Boven ingedrukt");
-			break;
-		case 8:
-			System.out.println("Rood Onder en Blauw Onder ingedrukt");
-			break;
-		case 9:
-			System.out.println("Beacon modus");
-			break;
-		case 10:
-			System.out.println("Rood Boven en Rood Onder ingedrukt");
-			break;
-		case 11:
-			System.out.println("Blauw Boven en Blauw Onder ingedrukt");
-			break;
-		}
 	}
 
 	@Override
@@ -243,10 +206,10 @@ public class Handler extends TakenModule {
 				zoekVoorwerp();
 				stop();
 			}
-
 		}
 		System.out.println("Einde programma, druk op een toets om af te sluiten");
 		Button.waitForAnyPress();
+		
 	}
 
 	@Override
