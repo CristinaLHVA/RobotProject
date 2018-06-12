@@ -10,7 +10,7 @@ import tools.InfraroodTools;
  * author: Bastiën / Renke
  */
 
-public class RPS extends TakenModule {
+public class RPS extends TakenModule implements Runnable{
 
 	final static int PAPIERHOEK = 1700; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
@@ -23,15 +23,18 @@ public class RPS extends TakenModule {
 	private Verplaatsen eindeSpelBeweging;
 	private InfraroodTools handSensor;
 	private Kanon kanon;
+	private MusicPlayer musicPlayer;
 
 	public RPS() {
 		this.rpsGrijper = new GrijperMotor();
 		this.eindeSpelBeweging = new Verplaatsen();
 		this.handSensor = new InfraroodTools(SensorPort.S2);
 		this.kanon = new Kanon();
+		this.musicPlayer = new MusicPlayer();
 	}
 
 	public void voerUit() {
+		musicPlayer.playRPSTheme();
 		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) {
 			System.out.println("Druk op enter om de ronde te starten");
 			Button.ENTER.waitForPress();
@@ -61,14 +64,14 @@ public class RPS extends TakenModule {
 			int knop = Button.waitForAnyPress();
 			if (knop == Button.ID_LEFT) {
 				scoreRobbie++;
-				happyMel();
+				musicPlayer.happyMel();
 			}
 			if (knop == Button.ID_RIGHT) {
 				scoreTegenspeler++;
-				sadMel();
+				musicPlayer.sadMel();
 			}
 			if (knop == Button.ID_ENTER) {
-				neutralMel();
+				musicPlayer.neutralMel();
 			}
 			// Vervolgens gaan we de actie weer ongedaan maken zodat we aan de eventuele
 			// volgende ronde kunnen beginnen
@@ -137,24 +140,9 @@ public class RPS extends TakenModule {
 		eindeSpelBeweging.stop();
 		handSensor.close();
 	}
-	
-	public void sadMel() {
-		 Sound.playTone(523, 180, 75);
-		 Sound.playTone(494, 180, 75);
-		 Sound.playTone(466, 180, 75);
-		 Sound.playTone(440, 180, 75);
-	}
-	
-	public void happyMel() {
-		Sound.playTone(523, 300, 75);
-		Sound.playTone(523, 125, 75);
-		Sound.playTone(523, 125, 75);
-		Sound.playTone(784, 2000, 75);
-	}
-	
-	public void neutralMel() {
-		 Sound.playTone(523, 333, 75);
-		 Sound.playTone(440, 333, 75);
-	}
 
+	@Override
+	public void run() {
+		voerUit();
+	}
 }
