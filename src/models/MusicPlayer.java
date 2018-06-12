@@ -4,7 +4,7 @@ import java.io.File;
 
 import lejos.hardware.Sound;
 
-public class MusicPlayer implements Runnable {
+public class MusicPlayer extends TakenModule implements Runnable {
 	
 	int mode;
 	private final static int modeRPS = 1;
@@ -56,6 +56,10 @@ public class MusicPlayer implements Runnable {
 	@Override
 	public void run() {
 		voerUit();
+	}
+
+	@Override
+	public void stop() {
 	}
 
 }
