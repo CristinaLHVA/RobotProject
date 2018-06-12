@@ -21,7 +21,7 @@ public class Kanon extends TakenModule{
 	public void schiet() {
 		kanonMotor.setPower(POWER);
 		kanonMotor.backward();
-		Delay.msDelay(1200);
+		Delay.msDelay(1200);//Hiermee zal de motor draaien tot het kanon wordt afgeschoten. Kan nog getweaked worden.
 		kanonMotor.forward();
 		Delay.msDelay(1200);
 		stop();

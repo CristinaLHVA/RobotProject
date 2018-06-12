@@ -12,7 +12,7 @@ import tools.InfraroodTools;
 
 public class RPS extends TakenModule implements Runnable{
 
-	final static int PAPIERHOEK = 1700; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
+	final static int PAPIERHOEK = 1800; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
 										// veranderd worden
 	public final static int MAXRONDES = 3;
 	private int scoreTegenspeler;

@@ -11,19 +11,14 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	public final static int PADVOLGER_MODE = 2;
 	
 	public MusicPlayer() {
-		
+		//Deze is nodig om de RPS-muziekjes af te spelen
 	}
 	
 	public MusicPlayer(int mode) {
 		this.mode = mode;
 	}
 	public void voerUit() {
-		if(mode == RPS_MODE) {
-			playRPSTheme();
-		}
-		if(mode == PADVOLGER_MODE) {
 			playPadVolgerTheme();
-		}
 	}
 	
 	public void playRPSTheme() {
