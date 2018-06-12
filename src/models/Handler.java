@@ -8,15 +8,22 @@ import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 import tools.InfraroodTools;
 
+/**
+ * @author Ray
+ *
+ */
+/**
+* @author Cristina 
+*/ 
 public class Handler extends TakenModule {
 
-	InfraroodTools irSensor;
-	Verplaatsen beweeg = new Verplaatsen();
-	GrijperMotor grijper = new GrijperMotor();
-	File beer = new File("Robot-C12-D/Beerx3Mono.wav");
-	private final static float BEACON_NOT_FOUND = 1.0f / 0.0f;
-	private final static float CENTER = 0;
-	private int power;
+	private InfraroodTools irSensor;
+	private Verplaatsen beweeg = new Verplaatsen();
+	private GrijperMotor grijper = new GrijperMotor();
+	private File beer = new File("Beerx3Mono8b.wav");
+	private final static int DISTANCE_CHANNEL = 3;
+	private final static int HEADING_CHANNEL = 2;
+	
 
 	public Handler() {
 		this.irSensor = new InfraroodTools(SensorPort.S2);
@@ -30,24 +37,23 @@ public class Handler extends TakenModule {
 		try {
 			distance = irSensor.getRange();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		while (distance > 30) {
+		while (distance > 25) {//rijden tot bij de voorwerp en afstand opniew opvragen
 			beweeg.motorPower(50, 50);
 			beweeg.rijVooruit();
 			distance = irSensor.getRange();
 		}
-		// Stoppen binnen bepaalde afstand
+		// Stoppen binnen bepaalde afstand/bij voorwerp
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
 		// Armen openen
 		grijper.open();
-		// Stukje vooruit rijden
+		// Stukje vooruit rijden 
 		beweeg.motorPower(20, 20);
 		beweeg.rijVooruit();
-		Delay.msDelay(2400);
-		// Stoppen
+		Delay.msDelay(4000);
+		// Stoppen en object oppaken
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
 		// Armen weer sluiten
@@ -67,98 +73,82 @@ public class Handler extends TakenModule {
 		// Terug rijden + 'Beer beer beer' afspelen
 		beweeg.motorPower(50, 50);
 		beweeg.rijVooruit();
-		Sound.beepSequenceUp();
+//		Sound.playSample(beer, 100);
 		Delay.msDelay(5000);
-		// Stoppen en resources afsluiten
+		// Stoppen en armen open
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
-
-		beweeg.stop();
-		irSensor.close();
+		grijper.open();
+		// Stukje acheteruit rijden
+		beweeg.motorPower(-30, -30);
+		beweeg.rijVooruit();
+		Delay.msDelay(4000);
+		// Stoppen en armen sluiten
+		beweeg.motorPower(0, 0);
+		beweeg.rijVooruit();
+		grijper.sluit();
 	}
-
-	// public void stuurLinks(int power) {
-	// beweeg.motorPower(power, -power);
-	// beweeg.rijVooruit();
-	// }
-	//
-	// public void stuurRecht(int power) {
-	//
-	// }
-	//
-	// public void rechtDoor(int power) {
-	//
-	// }
 
 	public void zoekVoorwerp() {
 		// Sensor in beacon modus zetten
 		irSensor.setMode(1);
 		// Afstand en richting van beacon opvragen (kanaal 3)
-		float heading = irSensor.getBeacon()[2];
-		float distance = irSensor.getBeacon()[3];
-		// Zoeken naar de beacon
-		// do {
-		// beweeg.motorPower(20, -20);
-		// beweeg.rijVooruit();
-		// heading = irSensor.getBeacon()[4];
-		// System.out.println("Heading: " + heading);
-		// } while ((heading < -5 || heading > 5) && heading != 0);
-		// distance = irSensor.getBeacon()[3];
-		// // Stoppen met zoeken en bevestig gevonden beacon
-		// beweeg.motorPower(0, 0);
-		// beweeg.rijVooruit();
+		float heading = irSensor.getBeacon()[HEADING_CHANNEL];
+		float distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
 		Sound.twoBeeps();
+		System.out.println("Heading: " + heading + "Distance: " + distance);
+		beweeg.motorPower(30, 30);
+		beweeg.rijVooruit();
+		Delay.msDelay(1000);
+		System.out.println("Heading: " + heading + "Distance: " + distance);
 
 		// Rijden naar de beacon !! met bijsturen waar nodig !!
-		while (distance > 28) {
-			if (distance > 90) {
-				if (heading < -2) {
-					power = (int) (((CENTER - heading) * 100) / 50);
-					beweeg.motorPower(power, 15);
-					beweeg.rijVooruit();
-					heading = irSensor.getBeacon()[4];
-					distance = irSensor.getBeacon()[5];
-					System.out.println("Heading: " + heading);
-				} else if (heading > 2) {
-					power = (int) (((CENTER - heading) * 100) / 50);
-					beweeg.motorPower(15, power);
-					beweeg.rijVooruit();
-					heading = irSensor.getBeacon()[4];
-					distance = irSensor.getBeacon()[5];
-					System.out.println("Heading: " + heading);
-				} else {
-					beweeg.motorPower(30, 30);
-					beweeg.rijVooruit();
-					heading = irSensor.getBeacon()[4];
-					distance = irSensor.getBeacon()[5];
-					System.out.println("Heading: " + heading);
-				}
-			} else if (distance < 55 && distance > 28) {
-
-				if (heading < -2) {
-					power = (int) (((CENTER - heading) * 100) / 50);
-					beweeg.motorPower(power, 10);
-					beweeg.rijVooruit();
-					heading = irSensor.getBeacon()[4];
-					distance = irSensor.getBeacon()[5];
-					System.out.println("Heading: " + heading);
-				} else if (heading > 2) {
-					power = (int) (((CENTER - heading) * 100) / 50);
-					beweeg.motorPower(10, power);
-					beweeg.rijVooruit();
-					heading = irSensor.getBeacon()[4];
-					distance = irSensor.getBeacon()[5];
-					System.out.println("Heading: " + heading);
-				} else {
-					beweeg.motorPower(20, 20);
-					beweeg.rijVooruit();
-					heading = irSensor.getBeacon()[4];
-					distance = irSensor.getBeacon()[5];
-					System.out.println("Heading: " + heading);
-				}
+		while (distance > 5) {
+			// if (distance > 20) {
+			// power = (int) (40 - (2*heading));
+			if (heading < -1 && distance < 100) {
+				beweeg.motorPower((int) (20 + (2 * heading)), 20);
+				beweeg.rijVooruit();
+				heading = irSensor.getBeacon()[HEADING_CHANNEL];
+				distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
+				System.out.println("Heading: " + heading + "Distance: " + distance);
+			} else if (heading > 1 && distance < 100) {
+				beweeg.motorPower(20, (int) (20 - (2 * heading)));
+				beweeg.rijVooruit();
+				heading = irSensor.getBeacon()[HEADING_CHANNEL];
+				distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
+				System.out.println("Heading: " + heading + "Distance: " + distance);
 			} else {
-				break;
+				beweeg.motorPower(30, 30);
+				beweeg.rijVooruit();
+				heading = irSensor.getBeacon()[HEADING_CHANNEL];
+				distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
+				System.out.println("Heading: " + heading + "Distance: " + distance);
 			}
+			// } else if (distance < 20) {
+			//// power = (int) (20 - 2*heading);
+			// if (heading < -2) {
+			// beweeg.motorPower((int)(20 +( 2*heading)), 20);
+			// beweeg.rijVooruit();
+			// heading = irSensor.getBeacon()[HEADING_CHANNEL];
+			// distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
+			// System.out.println("Heading: " + heading + "Distance: " + distance);
+			// } else if (heading > 2) {
+			// beweeg.motorPower(20, (int)(20 - (2*heading)));
+			// beweeg.rijVooruit();
+			// heading = irSensor.getBeacon()[HEADING_CHANNEL];
+			// distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
+			// System.out.println("Heading: " + heading + "Distance: " + distance);
+			// } else {
+			// beweeg.motorPower(20, 20);
+			// beweeg.rijVooruit();
+			// heading = irSensor.getBeacon()[HEADING_CHANNEL];
+			// distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
+			// System.out.println("Heading: " + heading + "Distance: " + distance);
+			// }
+			// } else {
+			// break;
+			// }
 		}
 		// Stoppen en armen openen
 		beweeg.motorPower(0, 0);
@@ -167,7 +157,7 @@ public class Handler extends TakenModule {
 		// Stukje vooruit rijden
 		beweeg.motorPower(20, 20);
 		beweeg.rijVooruit();
-		Delay.msDelay(2400);
+		Delay.msDelay(4000);
 		// Stoppen en armen sluiten
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
@@ -180,64 +170,24 @@ public class Handler extends TakenModule {
 		// Terug rijden en 'beer beer beer' afspelen !! met bijsturen !!
 		beweeg.motorPower(50, 50);
 		beweeg.rijVooruit();
-		Sound.beepSequence();
-		// Stoppen
-		beweeg.motorPower(0, 0);
-		beweeg.rijVooruit();
-		System.out.println("Heading: " + heading + " " + "Distance: " + distance);
+//		Sound.playSample(beer, 100);
 		Delay.msDelay(5000);
-
-		beweeg.stop();
-		irSensor.close();
-
-	}
-
-	public void testBeacon() {
-
-		irSensor.setMode(1);
-		// irSensor.getBeacon();
-		// float[] beacon = { irSensor.getBeacon()[4], irSensor.getBeacon()[5] };
-		float distance = irSensor.getBeacon()[1];
-		// for (int i = 0; i < beacon.length; i++) {
-		// System.out.println(beacon[i]);
-		// }
-		while (distance > 38) {
-			if (distance > 55) {
-				beweeg.motorPower(30, 30);
-				beweeg.rijVooruit();
-				distance = irSensor.getBeacon()[5];
-			} else if (distance < 55 && distance > 38) {
-				beweeg.motorPower(20, 20);
-				beweeg.rijVooruit();
-				distance = irSensor.getBeacon()[5];
-			} else {
-				break;
-			}
-		}
-
+		// Stoppen en armen open
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
 		grijper.open();
-		beweeg.motorPower(20, 20);
+		// Stukje acheteruit rijden
+		beweeg.motorPower(-30, -30);
 		beweeg.rijVooruit();
-		Delay.msDelay(2400);
+		Delay.msDelay(4000);
+		// Stoppen en armen sluiten
 		beweeg.motorPower(0, 0);
 		beweeg.rijVooruit();
 		grijper.sluit();
-		beweeg.motorPower(30, 70);
-		beweeg.rijVooruit();
-		Delay.msDelay(4400);
-		beweeg.motorPower(60, 60);
-		beweeg.rijVooruit();
-		Delay.msDelay(5000);
-		beweeg.motorPower(0, 0);
-		beweeg.rijVooruit();
-
-		beweeg.stop();
-		irSensor.close();
 
 	}
 
+	
 	public void testRemote() {
 		switch (irSensor.getSensor().getRemoteCommand(1)) {
 		case 0:
@@ -281,15 +231,29 @@ public class Handler extends TakenModule {
 
 	@Override
 	public void voerUit() {
-		// pakVoorwerp();
-		zoekVoorwerp();
-		Delay.msDelay(5000);
+		int knop = 0;
+		while (knop != Button.ID_ESCAPE) {
+			System.out.printf("Druk \n-links voor Pak Voorwerp, \n-rechts voor Zoek Object" + "\n-escape voor stop");
+			knop = Button.waitForAnyPress();
+			if (knop == Button.ID_LEFT) {
+				pakVoorwerp();
+				stop();
+			}
+			if (knop == Button.ID_RIGHT) {
+				zoekVoorwerp();
+				stop();
+			}
 
+		}
+		System.out.println("Einde programma, druk op een toets om af te sluiten");
+		Button.waitForAnyPress();
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		beweeg.stop();
+		grijper.stop();
+		irSensor.close();
 
 	}
 
