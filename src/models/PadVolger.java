@@ -15,9 +15,9 @@ public class PadVolger extends TakenModule {
 	private Verplaatsen verplaatsen;
 	private int vermogenBocht;
 	private int vermogenRechtdoor;
-	public void setVermogenRechtdoor(int vermogenRechtdoor) {
-		this.vermogenRechtdoor = vermogenRechtdoor;
-	}
+	private double maxLicht;
+	private int vanPadTimer;
+	private int spiraalTimer;
 
 	public static final int INTENSITEITSPRIMER = 200;
 	public static final int MAX_POWER = 100;
@@ -25,17 +25,15 @@ public class PadVolger extends TakenModule {
 										//Hiertussen ligt de sweetspot waar Robbie continu naar moet streven
 	public static final double MIN_LICHT = 0.42; //de minste hoeveelheid intensiteit voor we het wit noemen
 	public static final int ACHTERUITPOWER = 100;
-	double maxLicht;
-	
-	public Verplaatsen getVerplaatsen() {
-		return verplaatsen;
-	}
+	public static final int MAX_TIJD_VAN_PAD = 1000;
 
 	public PadVolger() {
 		this.padSensor = new ColorTools(SensorPort.S1);
-		verplaatsen = new Verplaatsen();
-		verplaatsen.motorPower(70, 70);
-		padSensor.setMode("Red");
+		this.verplaatsen = new Verplaatsen();
+		this.verplaatsen.motorPower(70, 70);
+		this.padSensor.setMode("Red");
+		this.vanPadTimer = MAX_TIJD_VAN_PAD;
+		this.spiraalTimer = 0;
 	}
 	
 	public void voerUit() {
@@ -48,11 +46,13 @@ public class PadVolger extends TakenModule {
 		Button.ENTER.waitForPress();
 		System.out.println("Druk omhoog om te stoppen");
 		while (Button.UP.isUp()){
-			leesLicht();
-			setVermogenBocht(50);
-			setVermogenRechtdoor(50);
-			rijPadDelta();
+			setVermogenBocht(30);
+			setVermogenRechtdoor(30);
+			rij();
 		}
+		System.out.println("vanPadTimer: " + vanPadTimer);
+		System.out.println("spiraalTimer: " + spiraalTimer);
+		Button.ENTER.waitForPress();
 		stop();
 	}
 	
@@ -60,42 +60,47 @@ public class PadVolger extends TakenModule {
 		intensiteit = padSensor.getRed();	
 	}
 	
-	//Deze method wordt momenteel niet meer gebruikt en is eigenlijk vervangen door rijPadBeta
-//	public void rijPad() {
-//		if(intensiteit < MAX_DONKER) {
-//			verplaatsen.draaiRechts();
-//			leesLicht();
-//		}
-//		if(intensiteit > MIN_LICHT) {
-//			verplaatsen.draaiLinks();
-//			leesLicht();
-//		}
-//		else {
-//			verplaatsen.rijVooruit();
-//			leesLicht();
-//		}
-//	}
+
+	public void rij () {
+		if (vanPadTimer >= MAX_TIJD_VAN_PAD) {
+			zoekPad();
+		}
+		else rijPad();
+	}
 	
-	//Deze method wordt momenteel niet meer gebruikt en is eigenlijk vervangen door rijPadDelta
-//	public void rijPadBeta() {
-//		leesLicht();
-//		verplaatsen.motorPower(((int)(intensiteit * vermogen)), (int)((MIN_LICHT - intensiteit * MAX_POWER) * vermogen / MAX_POWER));
-//		verplaatsen.rijVooruit();
-//	}
+	public void zoekPad() {
+		leesLicht();
+		if (intensiteit > MIN_LICHT) {
+			spiraalTimer++;
+			verplaatsen.motorPower((int) (((-1/spiraalTimer) + 1) * vermogenBocht), vermogenBocht);
+			verplaatsen.rijVooruit();
+		}
+		else {
+			spiraalTimer = 0;
+			vanPadTimer = 0;
+		}
+		
+	}
 	
-	public void rijPadDelta() {
+	public void rijPad() {
 		leesLicht();
 		if(intensiteit < MAX_DONKER) {
 			verplaatsen.motorPower(vermogenBocht, (int)((vermogenBocht/MAX_POWER) * ((intensiteit/ MAX_DONKER) * (MAX_POWER+ACHTERUITPOWER)) - ACHTERUITPOWER));
 			verplaatsen.rijVooruit();
+			vanPadTimer = 0;
 		}
 		if(intensiteit > MIN_LICHT) {
 			verplaatsen.motorPower((int)((vermogenBocht/MAX_POWER)-((((intensiteit-MIN_LICHT)/(maxLicht-MIN_LICHT)) * (MAX_POWER+ACHTERUITPOWER)) - ACHTERUITPOWER)), vermogenBocht);
 			verplaatsen.rijVooruit();
+			if (intensiteit > vanPadLicht()) {
+				vanPadTimer ++;
+			}
+			else vanPadTimer = 0;
 		}
 		else {
 			verplaatsen.motorPower(vermogenRechtdoor, vermogenRechtdoor);
 			verplaatsen.rijVooruit();
+			vanPadTimer = 0;
 		}
 	}
 	
@@ -123,8 +128,16 @@ public class PadVolger extends TakenModule {
 		this.vermogenBocht = vermogen;
 	}
 
+	public void setVermogenRechtdoor(int vermogenRechtdoor) {
+		this.vermogenRechtdoor = vermogenRechtdoor;
+	}
+	
 	public double getIntensiteit() {
 		return intensiteit;
+	}
+	
+	public double vanPadLicht() {
+		return (MIN_LICHT + maxLicht*3)/4;
 	}
 	
 }
