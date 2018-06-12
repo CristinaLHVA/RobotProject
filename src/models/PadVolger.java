@@ -8,7 +8,7 @@ import lejos.utility.Delay;
  */
 import tools.ColorTools;
 
-public class PadVolger extends TakenModule {
+public class PadVolger extends TakenModule implements Runnable {
 	
 	private ColorTools padSensor;
 	private double intensiteit;
@@ -139,5 +139,12 @@ public class PadVolger extends TakenModule {
 	public double vanPadLicht() {
 		return (MIN_LICHT + maxLicht*3)/4;
 	}
+
+	@Override
+	public void run() {
+		voerUit();
+	}
+	
+	
 	
 }

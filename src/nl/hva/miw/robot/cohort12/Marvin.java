@@ -31,6 +31,28 @@ public class Marvin {
 	}
 	
 	private void run() {
+//		Thread musicT = new Thread(new MusicPlayer(MusicPlayer.RPS_MODE));
+//		musicT.start();
+//		try {
+//			musicT.join();
+//		} catch (InterruptedException e) {
+//		// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Sound.playTone(523, 300, 75);
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.exit(0);
 		int knop = 0;
 		while (knop != Button.ID_ESCAPE) {
 			wisScherm();
@@ -39,7 +61,7 @@ public class Marvin {
 			knop = Button.waitForAnyPress();
 			wisScherm();
 			if (knop == Button.ID_LEFT) {
-				TakenModule padVolger = new PadVolger();
+				TakenModule padVolger = new MultiThread(MusicPlayer.PADVOLGER_MODE);
 				padVolger.voerUit();
 				padVolger.stop();
 			}

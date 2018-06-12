@@ -34,15 +34,20 @@ public class RPS extends TakenModule implements Runnable{
 	}
 
 	public void voerUit() {
-		musicPlayer.playRPSTheme();
 		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) {
 			System.out.println("Druk op enter om de ronde te starten");
-			Button.ENTER.waitForPress();
+			//Button.ENTER.waitForPress();
 			rpsGrijper.open(); 	// Het Robbie-equivalent van 1... 2... GO!
 			rpsGrijper.sluit();
 			rpsGrijper.open(); 
 			handSensor.setMode(0);
-			range = handSensor.getRange();//hiermee voer ik de eerste meting uit
+
+			try {
+				range = handSensor.getRange();//hiermee voer ik de eerste meting uit
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			while(!(range < 100)) { //zolang die meting niet minder is dan 100 blijft hij opnieuw meten
 				range = handSensor.getRange();
 			}
@@ -139,6 +144,7 @@ public class RPS extends TakenModule implements Runnable{
 	public void stop() {
 		eindeSpelBeweging.stop();
 		handSensor.close();
+		rpsGrijper.stop();
 	}
 
 	@Override

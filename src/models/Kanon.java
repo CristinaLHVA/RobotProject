@@ -21,9 +21,9 @@ public class Kanon extends TakenModule{
 	public void schiet() {
 		kanonMotor.setPower(POWER);
 		kanonMotor.backward();
-		Delay.msDelay(1800);
+		Delay.msDelay(1200);
 		kanonMotor.forward();
-		Delay.msDelay(1800);
+		Delay.msDelay(1200);
 		stop();
 	}
 
