@@ -1,5 +1,10 @@
 package models;
 
+/**
+ * @author Bastiën
+ * deze class maakt het mogelijk om meerdere taken tegelijk uit te voeren. In dit geval vooral padVolger + achtergrondmuziek
+ */
+
 public class MultiThread extends TakenModule {
 
 	PadVolger padVolger;

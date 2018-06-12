@@ -5,7 +5,8 @@ import lejos.utility.Delay;
 import tools.InfraroodTools;
 
 /**
- * author: Bastiën / Renke
+ *@author: Bastiën / Renke
+ *deze class voert Rock Paper, Siscors uit
  */
 
 public class RPS extends TakenModule implements Runnable {

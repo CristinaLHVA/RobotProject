@@ -2,6 +2,11 @@ package models;
 import java.io.File;
 import lejos.hardware.Sound;
 
+/**
+ * @author Bastiën
+ * deze class zorgt voor (achtergrond)geluiden
+ */
+
 public class MusicPlayer extends TakenModule implements Runnable {
 
 	int mode;

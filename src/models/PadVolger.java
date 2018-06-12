@@ -3,7 +3,8 @@ import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
 
 /**
- *  author: Renke/Bastiën
+ * @author: Renke/Bastiën
+ * deze class is gemaakt om een lijn te kunnen volgen
  */
 import tools.ColorTools;
 

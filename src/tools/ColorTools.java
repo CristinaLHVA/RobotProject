@@ -5,6 +5,12 @@ import lejos.robotics.Color;
 import lejos.robotics.ColorDetector;
 import lejos.robotics.ColorIdentifier;
 
+/**
+ * 
+ * @author Raymon
+ *
+ */
+
 public class ColorTools implements ColorDetector, ColorIdentifier {
 
 	EV3ColorSensor sensor;

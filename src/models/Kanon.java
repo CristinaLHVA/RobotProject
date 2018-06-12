@@ -3,8 +3,9 @@ import lejos.hardware.motor.UnregulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.utility.Delay;
 
-/*
+/**
  * @author Bastiën
+ * kanon
  */
 
 public class Kanon extends TakenModule{
