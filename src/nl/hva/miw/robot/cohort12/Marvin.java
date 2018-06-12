@@ -49,9 +49,9 @@ public class Marvin {
 				handler.stop();
 			}
 			if (knop == Button.ID_RIGHT) {
-				MultiThread multi = new MultiThread(MusicPlayer.RPS_MODE);
-				multi.voerUit();
-				multi.stop();
+				TakenModule rps = new RPS();
+				rps.voerUit();
+				rps.stop();
 			}
 			if (knop == Button.ID_UP) {
 				TakenModule kanon = new Kanon();
