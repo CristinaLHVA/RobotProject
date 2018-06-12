@@ -26,20 +26,13 @@ public class MultiThread extends TakenModule {
 			musicThread.start();
 			try {
 				pvThread.join();
-				System.out.println("padVolger done");
 				musicThread.join();
-				System.out.println("Music done");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
-		System.out.println("end of threads!");
-//		else if (mode == MusicPlayer.PADVOLGER_MODE) {
-//			(new Thread(padVolger)).start();
-//			(new Thread(musicPlayer)).start();
-//		}
 	}
 
 	@Override

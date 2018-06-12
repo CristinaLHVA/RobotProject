@@ -31,28 +31,6 @@ public class Marvin {
 	}
 	
 	private void run() {
-//		Thread musicT = new Thread(new MusicPlayer(MusicPlayer.RPS_MODE));
-//		musicT.start();
-//		try {
-//			musicT.join();
-//		} catch (InterruptedException e) {
-//		// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		Sound.playTone(523, 300, 75);
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		System.exit(0);
 		int knop = 0;
 		while (knop != Button.ID_ESCAPE) {
 			wisScherm();
@@ -84,33 +62,6 @@ public class Marvin {
 		System.out.println("Einde programma, druk op een toets om af te sluiten");
 		Button.waitForAnyPress();
 	}	
-		
-//		waitForKey(Button.ENTER);
-//		PadVolger padVolger = new PadVolger();
-//		padVolger.voerUit();
-//		while (Button.ESCAPE.isUp()) {
-//			padVolger.printLicht();
-//			waitForKey(Button.ENTER);
-//		}
-
-//		System.out.println("Einde Programma");
-
-//		waitForKey(("Beacon zoeken gestart...");
-//		Handler handler = new Handler();
-//		while (Button.ESCAPE.isUp()){
-//			handler.testRun();
-//			Delay.msDeButto.ENTER);
-
-//		System.out.printlnlay(5000);
-//			handler.testBeacon();
-//			Delay.msDelay(5000);
-
-//		}
-//		RPS rps = new RPS();
-//		rps.voerUit();
-//
-//	}
-
 
 	public void waitForKey(Key key) {
 		while(key.isUp()) {
