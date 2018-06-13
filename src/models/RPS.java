@@ -1,12 +1,12 @@
 package models;
+
 import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
 import lejos.utility.Delay;
 import tools.InfraroodTools;
 
 /**
- *@author: Bastiën / Renke
- *deze class voert Rock Paper, Scissors uit
+ * @author: Bastiën / Renke deze class voert Rock Paper, Scissors uit
  */
 
 public class RPS extends TakenModule implements Runnable {
@@ -19,7 +19,7 @@ public class RPS extends TakenModule implements Runnable {
 	public final static int MAX_DELAY = MIN_DELAY * 3;
 	public final static int DEFAULT_POWER = 50;
 	public final static int FULL_POWER = DEFAULT_POWER * 2;
-	public final static int SLOW_POWER = DEFAULT_POWER /2;
+	public final static int SLOW_POWER = DEFAULT_POWER / 2;
 	public final static int MIN_RANGE = 100;
 	public final static int RANGE_MODE = 0;
 	private int scoreTegenspeler;
@@ -41,7 +41,7 @@ public class RPS extends TakenModule implements Runnable {
 		this.musicPlayer = new MusicPlayer();
 	}
 
-	//Start RPS
+	// Start RPS
 	public void voerUit() {
 		while (aantalRondes < MAX_RONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
 			System.out.println("Druk op enter om de ronde te starten");
@@ -52,7 +52,8 @@ public class RPS extends TakenModule implements Runnable {
 			handSensor.setMode(RANGE_MODE);
 
 			try {
-				range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit, zonder die try/catch geeft hij af
+				range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit, zonder die try/catch geeft
+												// hij af
 												// en toe een foutmelding aan het einde van het programma
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -135,26 +136,26 @@ public class RPS extends TakenModule implements Runnable {
 		// robbie zal nee schudden, zich omdraaien en wegrijden. Daarnaast schiet hij
 		// met zijn kanon en druipt hij langzaam af...
 		musicPlayer.sadMel();
-		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER); //Links
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER); // Links
 		verplaatsen.rijVooruit();
 		Delay.msDelay(MIN_DELAY);
-		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER); //Rechts
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER); // Rechts
 		verplaatsen.rijVooruit();
 		Delay.msDelay(MIN_DELAY);
-		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER); //Links
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER); // Links
 		verplaatsen.rijVooruit();
 		Delay.msDelay(MIN_DELAY);
-		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER); //Rechts
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER); // Rechts
 		verplaatsen.rijVooruit();
-		Delay.msDelay(MAX_DELAY); //Omdraaien
+		Delay.msDelay(MAX_DELAY); // Omdraaien
 		verplaatsen.motorPower(SLOW_POWER, SLOW_POWER);
-		verplaatsen.rijVooruit();  //Langzaam "boos" rijden
-		kanon.voerUit(); //Kanon afschieten
+		verplaatsen.rijVooruit(); // Langzaam "boos" rijden
+		kanon.voerUit(); // Kanon afschieten
 		Delay.msDelay(MIN_DELAY);
 		kanon.voerUit();
 		Delay.msDelay(MIN_DELAY);
 		kanon.voerUit();
-		
+
 		while (Button.ENTER.isUp()) {
 			verplaatsen.rijVooruit();
 		}

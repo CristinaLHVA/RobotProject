@@ -19,8 +19,9 @@ public class Kanon extends TakenModule {
 	}
 
 	public void schiet() {
-		kanonMotor.setPower(POWER); 
-		kanonMotor.backward(); //De motor draait achteruit voor 1200ms en daarna weer vooruit voor hetzelfde getal
+		kanonMotor.setPower(POWER);
+		kanonMotor.backward(); // De motor draait achteruit voor 1200ms en daarna weer vooruit voor hetzelfde
+								// getal
 		Delay.msDelay(maxDelay);
 		kanonMotor.forward();
 		Delay.msDelay(maxDelay);
