@@ -12,8 +12,9 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	int mode;
 	public final static int RPS_MODE = 1;
 	public final static int PADVOLGER_MODE = 2;
+	public final static int A2 = 880;
 	public final static int G = 784;
-	public final static int F = 698;
+	public final static int E = 659;
 	public final static int D = 587;
 	public final static int C = 523;
 	public final static int B = 494;
@@ -58,13 +59,17 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	}
 
 	public void bewegingKlaarMel() { // Speelt een notificatie
-		Sound.playTone(C, midDur, defaultVol);
-		Sound.playTone(D, midDur, defaultVol);
-		Sound.playTone(F, midDur, defaultVol);
+		Sound.playTone(C, shortDur, defaultVol);
+		Sound.playTone(D, shortDur, defaultVol);
+		Sound.playTone(G, shortDur, defaultVol);
+		Sound.playTone(E, shortDur, defaultVol);
 	}
 	
-	public void startToon() {
+	public void startMel() {
+		Sound.playTone(G, shortDur, defaultVol);
 		Sound.playTone(C, shortDur, defaultVol);
+		Sound.playTone(E, shortDur, defaultVol);
+		Sound.playTone(A2, shortDur, defaultVol);
 	}
 
 	@Override

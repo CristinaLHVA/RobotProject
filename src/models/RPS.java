@@ -19,7 +19,7 @@ public class RPS extends TakenModule implements Runnable {
 	public final static int DEFAULT_POWER = 50;
 	public final static int FULL_POWER = DEFAULT_POWER * 2;
 	public final static int SLOW_POWER = DEFAULT_POWER / 2;
-	public final static int MIN_RANGE = 25;
+	public final static int MIN_RANGE = 50;
 	public final static int RANGE_MODE = 0;
 	private int scoreTegenspeler;
 	private int scoreRobbie;
@@ -43,13 +43,9 @@ public class RPS extends TakenModule implements Runnable {
 	// Start RPS
 	public void voerUit() {
 		while (aantalRondes < MAX_RONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
-			System.out.printf("Druk op enter om\nde ronde te starten");
-			Button.ENTER.waitForPress();
-			musicPlayer.startToon();
-			rpsGrijper.open(); // Het Robbie-equivalent van 1... 2... GO!
-			rpsGrijper.sluit();
 			rpsGrijper.open();
-			
+			musicPlayer.startMel();
+
 			handSensor.setMode(RANGE_MODE);
 			range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit
 
