@@ -30,11 +30,13 @@ public class Marvin {
 		
 	}
 	
+//	de hoofdmethode. Geeft een keuzemenu van verschillende modules, voert de gekozen module uit, stopt hem (geeft inputs en outputs vrij),
+//	en gaat terug naar keuzemenu
 	private void run() {
 		int knop = 0;
 		while (knop != Button.ID_ESCAPE) {
 			wisScherm();
-			System.out.printf("links = Padvolger, \nbeneden = Handler, \nrechts = RPS, \nomhoog = Kanon"
+			System.out.printf("links = Padvolger\nbeneden = Handler\nrechts = RPS\nomhoog = Kanon"
 					+ "\n-escape voor stop");
 			knop = Button.waitForAnyPress();
 			wisScherm();
@@ -59,6 +61,7 @@ public class Marvin {
 				kanon.stop();
 			}
 		}
+//		als Escape gedrukt is wordt keuzemenu verlaten en komt een laatste mededeling ter bevestiging
 		System.out.println("Einde programma, druk op een toets om af te sluiten");
 		Button.waitForAnyPress();
 	}	
@@ -72,6 +75,7 @@ public class Marvin {
 		}
 	}
 	
+//	maakt 8 witregels. Dit betekent wel dat volgende output onder op het scherm komt te staan.
 	public void wisScherm() {
 		for(int regel = 0; regel < 8; regel++) {
 			System.out.println();
