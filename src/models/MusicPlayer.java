@@ -1,10 +1,10 @@
 package models;
+
 import java.io.File;
 import lejos.hardware.Sound;
 
 /**
- * @author Bastiën
- * deze class zorgt voor (achtergrond)geluiden
+ * @author Bastiën deze class zorgt voor (achtergrond)geluiden
  */
 
 public class MusicPlayer extends TakenModule implements Runnable {
@@ -14,7 +14,7 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	public final static int PADVOLGER_MODE = 2;
 
 	public MusicPlayer() {
-		// Deze is nodig om de RPS-muziekjes af te spelen
+		// Deze is nodig om de RPS-muziek af te spelen
 	}
 
 	public void voerUit() {
@@ -24,9 +24,10 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	public void playPadVolgerTheme() {
 		Sound.playSample(new File("bttfmono.wav"));
 	}
-	
-	//hieronder volgen de losstaande melodieën die aangeroepen worden bij RPS
 
+	// hieronder volgen de losstaande melodieën die aangeroepen worden bij RPS
+	// Vooralsnog geprobeerd om constanten aan te maken van de tonen, echter,
+	// Eclipse beweert dan dat er duplicate fields zijn
 	public void sadMel() {
 		Sound.playTone(523, 180, 75);
 		Sound.playTone(494, 180, 75);
@@ -38,7 +39,7 @@ public class MusicPlayer extends TakenModule implements Runnable {
 		Sound.playTone(523, 300, 75);
 		Sound.playTone(523, 125, 75);
 		Sound.playTone(523, 125, 75);
-		Sound.playTone(784, 2000, 75);
+		Sound.playTone(784, 1200, 75);
 	}
 
 	public void neutralMel() {
