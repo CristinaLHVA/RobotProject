@@ -8,13 +8,15 @@ import lejos.utility.Delay;
 import tools.InfraroodTools;
 
 /**
- * @author Ray
+ * @author Ray Klasse die het mogelijk maakt om een object of een beacon
+ * op te pakken en ergens anders neer te zetten.
  *
  */
 
 /**
  * @author Cristina
  */
+
 public class Handler extends TakenModule {
 
 	private InfraroodTools irSensor;
@@ -92,10 +94,26 @@ public class Handler extends TakenModule {
 		Delay.msDelay(delay);
 	}
 
+	public void readyToGo() {
+		// Toon om aan te geven dat het programma start en knipper licht
+		Sound.twoBeeps();
+		Button.LEDPattern(4);
+	}
+
+	// Methode die het afsluiten van de functie aangeeft
+	public void finishedTheShow() {
+		Button.LEDPattern(4);
+		Sound.beepSequence();
+		Delay.msDelay(5000);
+		Button.LEDPattern(0);
+	}
+
 	// Methode om een voorwerp op te pakken en te verplaatsen
 	public void pakVoorwerp() {
 		// Sensor op distance mode zetten
 		irSensor.setMode(0);
+		// Melding om aan te geven dat de functie start
+		readyToGo();
 		// Afstand opvragen en rijden
 		float distanceValue = 0;
 		try {
@@ -108,14 +126,19 @@ public class Handler extends TakenModule {
 			beweeg.rijVooruit();
 			distanceValue = irSensor.getRange();
 		}
+
 		// Stoppen binnen bepaalde afstand/bij voorwerp
 		stopRijden();
+		Sound.beepSequenceUp();
+		Button.LEDPattern(9);
 		// Voorwerp oppakken
 		grijpen(3400);
 		// Verplaatsen
 		wegRijden(5000);
 		// Voorwerp neerzetten
 		neerzetten();
+		// Melding om aan te geven dat de functie stopt
+		finishedTheShow();
 	}
 
 	// Methode om te bepalen waar de beacon is
@@ -132,8 +155,8 @@ public class Handler extends TakenModule {
 		irSensor.setMode(1);
 		// Afstand en richting van beacon opvragen
 		updateLocation();
-		// Toon om aan te geven dat het programma start
-		Sound.twoBeeps();
+		// Melding om aan te geven dat de functie start
+		readyToGo();
 		// Begin met rijden
 		wegRijden(2000);
 
@@ -192,14 +215,19 @@ public class Handler extends TakenModule {
 				break;
 			}
 		}
+
 		// Stop met rijden voor de beacon
 		stopRijden();
+		Sound.beepSequenceUp();
+		Button.LEDPattern(9);
 		// Pak de beacon op
 		grijpen(4000);
 		// Rij weg met de beacon
 		wegRijden(5000);
 		// Zet de beacon weer neer
 		neerzetten();
+		// Melding om aan te geven dat de functie stopt
+		finishedTheShow();
 	}
 
 	// Methode overgekomen uit de super klasse om een van beide functies te
