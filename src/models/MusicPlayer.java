@@ -62,6 +62,10 @@ public class MusicPlayer extends TakenModule implements Runnable {
 		Sound.playTone(D, midDur, defaultVol);
 		Sound.playTone(F, midDur, defaultVol);
 	}
+	
+	public void startToon() {
+		Sound.playTone(C, shortDur, defaultVol);
+	}
 
 	@Override
 	public void run() {

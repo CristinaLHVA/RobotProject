@@ -14,12 +14,12 @@ public class RPS extends TakenModule implements Runnable {
 	public final static int PAPIERHOEK = 1800;
 	public final static int MAX_RONDES = 3;
 	public final static int MAX_HAND_OPTIES = 3;
-	public final static int MIN_DELAY = 1500;
+	public final static int MIN_DELAY = 500;
 	public final static int MAX_DELAY = MIN_DELAY * 3;
 	public final static int DEFAULT_POWER = 50;
 	public final static int FULL_POWER = DEFAULT_POWER * 2;
 	public final static int SLOW_POWER = DEFAULT_POWER / 2;
-	public final static int MIN_RANGE = 100;
+	public final static int MIN_RANGE = 25;
 	public final static int RANGE_MODE = 0;
 	private int scoreTegenspeler;
 	private int scoreRobbie;
@@ -43,22 +43,17 @@ public class RPS extends TakenModule implements Runnable {
 	// Start RPS
 	public void voerUit() {
 		while (aantalRondes < MAX_RONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
-			System.out.println("Druk op enter om de ronde te starten");
+			System.out.printf("Druk op enter om\nde ronde te starten");
 			Button.ENTER.waitForPress();
+			musicPlayer.startToon();
 			rpsGrijper.open(); // Het Robbie-equivalent van 1... 2... GO!
 			rpsGrijper.sluit();
 			rpsGrijper.open();
+			
 			handSensor.setMode(RANGE_MODE);
+			range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit
 
-			try {
-				range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit, zonder die try/catch geeft
-												// hij af
-												// en toe een foutmelding aan het einde van het programma
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			while (!(range < MIN_RANGE)) { // zolang die meting niet minder is dan 100 blijft hij opnieuw meten
+			while (range > MIN_RANGE) { // zolang die meting niet minder is dan 100 blijft hij opnieuw meten
 				range = handSensor.getRange();
 			}
 			// als de meting eronder komt, start het programma (dan heeft hij je hand
@@ -79,8 +74,7 @@ public class RPS extends TakenModule implements Runnable {
 				musicPlayer.bewegingKlaarMel();
 				break;
 			}
-			System.out.println("Wie heeft er gewonnen?");
-			System.out.printf("Links = Robbie\nRechts = tegenspeler: ");
+			System.out.printf("Wie heeft er gewonnen?\nLinks = Robbie\nRechts = tegenspeler: ");
 			int knop = Button.waitForAnyPress();
 			if (knop == Button.ID_LEFT) {
 				scoreRobbie++;
@@ -106,7 +100,7 @@ public class RPS extends TakenModule implements Runnable {
 				musicPlayer.bewegingKlaarMel();
 				break;
 			case 3:
-				System.out.println("Was al steen, dus blijft gesloten");
+				System.out.println("Was al steen, blijft gesloten");
 				musicPlayer.bewegingKlaarMel();
 				break;
 			}
@@ -126,6 +120,7 @@ public class RPS extends TakenModule implements Runnable {
 	}
 
 	public void juich() {
+		System.out.printf("Hou Enter ingedrukt\nom te stopppen");
 		while (Button.ENTER.isUp()) {
 			musicPlayer.happyMel();
 			verplaatsen.motorPower(FULL_POWER, -FULL_POWER);
@@ -154,9 +149,9 @@ public class RPS extends TakenModule implements Runnable {
 		verplaatsen.motorPower(SLOW_POWER, SLOW_POWER);
 		verplaatsen.rijVooruit(); // Langzaam "boos" rijden
 		kanon.voerUit(); // Kanon afschieten
-		Delay.msDelay(MIN_DELAY);
+		Delay.msDelay(MAX_DELAY);
 		kanon.voerUit();
-		Delay.msDelay(MIN_DELAY);
+		Delay.msDelay(MAX_DELAY);
 		kanon.voerUit();
 
 		while (Button.ENTER.isUp()) {
