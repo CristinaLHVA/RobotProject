@@ -14,7 +14,6 @@ public class RPS extends TakenModule implements Runnable {
 	public final static int PAPIERHOEK = 1800;
 	public final static int MAX_RONDES = 3;
 	public final static int MAX_HAND_OPTIES = 3;
-	public final static int INT_CORRECTIE = 1;
 	public final static int MIN_DELAY = 1500;
 	public final static int MAX_DELAY = MIN_DELAY * 3;
 	public final static int DEFAULT_POWER = 50;
@@ -65,7 +64,7 @@ public class RPS extends TakenModule implements Runnable {
 			// als de meting eronder komt, start het programma (dan heeft hij je hand
 			// gezien)
 
-			robbieHand = (int) (Math.random() * MAX_HAND_OPTIES) + INT_CORRECTIE;
+			robbieHand = getHand();
 			switch (robbieHand) {
 			case 1:
 				System.out.println("Schaar blijft schaar"); // schaar
@@ -120,6 +119,10 @@ public class RPS extends TakenModule implements Runnable {
 		} else
 			weesVerdrietig();
 		stop();
+	}
+
+	private int getHand() {
+		return (int) (Math.random() * MAX_HAND_OPTIES) + 1;
 	}
 
 	public void juich() {

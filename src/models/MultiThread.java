@@ -21,7 +21,7 @@ public class MultiThread extends TakenModule {
 		Thread musicThread = new Thread(musicPlayer);
 		Thread padVolgerThread = new Thread(padVolger);
 		padVolgerThread.start();// Hiermee start je beide threads (start roept vanuit zichzelf op zijn beurt
-								// run() aan in de bijbehorende classes
+								// run() aan in de bijbehorende classes)
 		musicThread.start();
 		try {
 			padVolgerThread.join();// Hiermee wordt er gewacht tot de padvolger thread klaar is om de muziek te
