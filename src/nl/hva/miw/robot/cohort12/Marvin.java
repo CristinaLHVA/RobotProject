@@ -32,16 +32,22 @@ public class Marvin {
 					+ "\n-escape voor stop");
 			knop = Button.waitForAnyPress();
 			wisScherm();
+			
+//			als links ingedrukt wordt, start padvolger (volgt een zwarte lijn)
 			if (knop == Button.ID_LEFT) {
 				TakenModule padVolger = new MultiThread();
 				padVolger.voerUit();
 				padVolger.stop();
 			}
+			
+//			als beneden ingedrukt wordt, start handler (zoekt beacon, pakt het op en verplaatst het)
 			if (knop == Button.ID_DOWN){
 				TakenModule handler = new Handler();
 				handler.voerUit();
 				handler.stop();
 			}
+			
+//			als beneden ingedrukt wordt, start RPS (rock, paper, scissors / schaar, steen, papier)
 			if (knop == Button.ID_RIGHT) {
 				TakenModule rps = new RPS();
 				rps.voerUit();

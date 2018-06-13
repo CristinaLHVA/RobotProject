@@ -10,6 +10,7 @@ import tools.ColorTools;
 
 public class PadVolger extends TakenModule implements Runnable {
 	
+	
 	private ColorTools padSensor;
 	private double intensiteit;	// de gemeten waarde van het licht, tussen 0 (zwart) en 1 (wit)
 	private Verplaatsen verplaatsen;
@@ -25,14 +26,17 @@ public class PadVolger extends TakenModule implements Runnable {
 	public static final int ACHTERUITPOWER = 100;
 	public static final int MAX_TIJD_VAN_PAD = 10000; // maximum aantal loops
 	public static final int MACHTSFACTOR = -5;
+	public static final int DEFAULTPOWER = 30; // vermogen standaard op 30%
+	private static final int DELAY = 1000;  // wacht een seconde
 
 	public PadVolger() {
 		this.padSensor = new ColorTools(SensorPort.S1);
 		this.verplaatsen = new Verplaatsen();
-		this.verplaatsen.motorPower(70, 70);
 		this.padSensor.setMode("Red");
 		this.vanPadTimer = MAX_TIJD_VAN_PAD;
 		this.spiraalTimer = 0;
+		this.vermogenBocht = DEFAULTPOWER;
+		this.vermogenRechtdoor = DEFAULTPOWER;
 	}
 	
 	public void voerUit() {
@@ -43,11 +47,10 @@ public class PadVolger extends TakenModule implements Runnable {
 		System.out.printf("Witcalibratie = %f\n", intensiteit);
 //		System.out.println("Druk op enter bij de start");
 //		Button.ENTER.waitForPress();
-		Delay.msDelay(1000);
+		Delay.msDelay(DELAY);
 		System.out.println("Druk omhoog om te stoppen");
 		while (Button.UP.isUp()){
-			setVermogenBocht(30);
-			setVermogenRechtdoor(30);
+			
 			rij();
 		}
 //		System.out.println("vanPadTimer: " + vanPadTimer);
