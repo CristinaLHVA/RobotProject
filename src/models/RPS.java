@@ -50,7 +50,12 @@ public class RPS extends TakenModule implements Runnable {
 			range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit
 
 			while (range > MIN_RANGE) { // zolang die meting niet minder is dan 100 blijft hij opnieuw meten
-				range = handSensor.getRange();
+				try {
+					range = handSensor.getRange();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			// als de meting eronder komt, start het programma (dan heeft hij je hand
 			// gezien)
@@ -148,7 +153,6 @@ public class RPS extends TakenModule implements Runnable {
 		Delay.msDelay(MAX_DELAY);
 		kanon.voerUit();
 		Delay.msDelay(MAX_DELAY);
-		kanon.voerUit();
 
 		while (Button.ENTER.isUp()) {
 			verplaatsen.rijVooruit();
