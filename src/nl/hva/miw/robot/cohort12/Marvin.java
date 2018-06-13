@@ -1,18 +1,10 @@
 package nl.hva.miw.robot.cohort12;
-
 import lejos.hardware.Brick;
 import lejos.hardware.Button;
 import lejos.hardware.Key;
-import lejos.hardware.Sound;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.lcd.LCD;
-import lejos.hardware.lcd.TextLCD;
-import lejos.hardware.port.SensorPort;
-import lejos.remote.ev3.RMIRemoteTextLCD;
-import lejos.remote.ev3.RemoteTextLCD;
 import lejos.utility.Delay;
 import models.*;
-import tools.ColorTools;
 
 public class Marvin {
 	
@@ -41,7 +33,7 @@ public class Marvin {
 			knop = Button.waitForAnyPress();
 			wisScherm();
 			if (knop == Button.ID_LEFT) {
-				TakenModule padVolger = new MultiThread(MusicPlayer.PADVOLGER_MODE);
+				TakenModule padVolger = new MultiThread();
 				padVolger.voerUit();
 				padVolger.stop();
 			}

@@ -1,51 +1,66 @@
 package models;
 
 import java.io.File;
-
 import lejos.hardware.Sound;
 
+/**
+ * @author Bastiën deze class zorgt voor (achtergrond)geluiden
+ */
+
 public class MusicPlayer extends TakenModule implements Runnable {
-	
+
 	int mode;
 	public final static int RPS_MODE = 1;
 	public final static int PADVOLGER_MODE = 2;
-	
+	public final static int G = 784;
+	public final static int F = 698;
+	public final static int D = 587;
+	public final static int C = 523;
+	public final static int B = 494;
+	public final static int Bb = 466;
+	public final static int A = 440;
+	public final static int shortDur = 150;
+	public final static int midDur = 333;
+	public final static int longDur = 1200;
+	public final static int defaultVol = 100;
+
 	public MusicPlayer() {
-		//Deze is nodig om de RPS-muziekjes af te spelen
+		// Deze is nodig om de RPS-muziek af te spelen
 	}
-	
-	public MusicPlayer(int mode) {
-		this.mode = mode;
-	}
+
 	public void voerUit() {
-			playPadVolgerTheme();
+		playPadVolgerTheme();
 	}
-	
-	public void playRPSTheme() {
-		Sound.playSample(new File("eottmono.wav"));
-	}
-	
+
 	public void playPadVolgerTheme() {
 		Sound.playSample(new File("bttfmono.wav"));
 	}
-	
-	public void sadMel() {
-		 Sound.playTone(523, 180, 75);
-		 Sound.playTone(494, 180, 75);
-		 Sound.playTone(466, 180, 75);
-		 Sound.playTone(440, 180, 75);
+
+	// hieronder volgen de losstaande melodieën die aangeroepen worden bij RPS
+
+	public void sadMel() { // Speelt een verdrietig melodietje
+		Sound.playTone(C, shortDur, defaultVol);
+		Sound.playTone(B, shortDur, defaultVol);
+		Sound.playTone(Bb, shortDur, defaultVol);
+		Sound.playTone(A, shortDur, defaultVol);
 	}
-	
-	public void happyMel() {
-		Sound.playTone(523, 300, 75);
-		Sound.playTone(523, 125, 75);
-		Sound.playTone(523, 125, 75);
-		Sound.playTone(784, 2000, 75);
+
+	public void happyMel() { // Speelt een blij melodietje
+		Sound.playTone(C, midDur, defaultVol);
+		Sound.playTone(C, shortDur, defaultVol);
+		Sound.playTone(C, shortDur, defaultVol);
+		Sound.playTone(G, longDur, defaultVol);
 	}
-	
-	public void neutralMel() {
-		 Sound.playTone(523, 333, 75);
-		 Sound.playTone(440, 333, 75);
+
+	public void neutralMel() { // Speelt een neutraal melodietje
+		Sound.playTone(C, midDur, defaultVol);
+		Sound.playTone(A, midDur, defaultVol);
+	}
+
+	public void bewegingKlaarMel() { // Speelt een notificatie
+		Sound.playTone(C, midDur, defaultVol);
+		Sound.playTone(D, midDur, defaultVol);
+		Sound.playTone(F, midDur, defaultVol);
 	}
 
 	@Override

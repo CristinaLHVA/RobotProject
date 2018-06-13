@@ -6,44 +6,53 @@ import lejos.robotics.Color;
 import lejos.robotics.ColorDetector;
 import lejos.robotics.ColorIdentifier;
 
+/**
+ * 
+ * @author Raymon Deze klasse zet de methodes voor het gebruik van de
+ *         kleursensor klaar.
+ * 
+ */
+
 public class ColorTools implements ColorDetector, ColorIdentifier {
 
 	EV3ColorSensor sensor;
 	float[] sample;
 	private static final int OFFSET = 0;
 
+	// Constructor die een nieuw sensor object aan maakt en de poort waarop
+	// deze is aangesloten als argument moet hebben
 	public ColorTools(Port port) {
 		sensor = new EV3ColorSensor(port);
 		setFloodLight(false);
 	}
 
+	// Vraag de sensor zelf op voor het gebruik van super methodes
 	public EV3ColorSensor getSensor() {
 		return sensor;
 	}
 
-	/*
-	 * Set mode van de color sensor:
-	 * 1. Red mode = "Red"
-	 * 2. Ambient mode = "Ambient"
-	 * 3. Color ID mode = "ColorID"
-	 * 4. RGB mode = "RGB" 
-	 *  
-	 */
+	// Set mode van de kleursensor:
+	// 1. Red mode = "Red"
+	// 2. Ambient mode = "Ambient"
+	// 3. Color ID mode = "ColorID"
+	// 4. RGB mode = "RGB"
 
 	public void setMode(String mode) {
 		sensor.setCurrentMode(mode);
 		sample = new float[sensor.sampleSize()];
 	}
-	
+
+	// Vraag de ingestelde mode van het sensor object op
 	public int getMode() {
 		return sensor.getCurrentMode();
 	}
 
 	/**
-	 * Returns huidige gedetecteerde kleur. Gebruik met Color Id mode.
+	 * Returns huidige gedetecteerde kleur. Gebruik met 'Color Id' mode.
 	 * 
 	 * @return Color id. Color id's zitten in het Color object.
 	 */
+
 	@Override
 	public int getColorID() {
 		sensor.fetchSample(sample, OFFSET);
@@ -52,10 +61,10 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	}
 
 	/**
-	 * Returns Color object huidige gedetecteerde kleur. Gebruik met RGB mode en wit
-	 * licht op doel. NB: deze waardes zijn relatieve intensiteit van het gereflecteerde
-	 * licht van de primaire kleuren. Dit is niet de RGB waarde die de kleur van het
-	 * oppervlak zou reproduceren.
+	 * Returns Color object huidige gedetecteerde kleur. Gebruik met 'RGB' mode en wit
+	 * licht op doel. NB: deze waardes zijn relatieve intensiteit van het
+	 * gereflecteerde licht van de primaire kleuren. Dit is niet de RGB waarde die
+	 * de kleur van het oppervlak zou reproduceren.
 	 * 
 	 * @return Color object met RGB intensiteitswaardes van gedetecteerde kleur.
 	 */
@@ -67,7 +76,8 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	}
 
 	/**
-	 * Return omgevingslicht waarde. Gebruk met Ambient mode. Sensor led moet uit staan.
+	 * Return omgevingslicht waarde. Gebruik met 'Ambient' mode. Sensor led moet uit
+	 * staan.
 	 * 
 	 * @return Licht niveau as range 0 to 1.
 	 */
@@ -77,7 +87,7 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	}
 
 	/**
-	 * Return Rood licht niveau. Gebruik met Red mode. Sensor led moet rood zijn.
+	 * Return Rood licht niveau. Gebruik met 'Red' mode. Sensor led moet rood zijn.
 	 * 
 	 * @return Licht niveau as range 0 to 1.
 	 */
@@ -111,8 +121,6 @@ public class ColorTools implements ColorDetector, ColorIdentifier {
 	public void setFloodLight(boolean on) {
 		sensor.setFloodlight(on);
 	}
-	
-	
 
 	/**
 	 * Set floodlight default led kleur.

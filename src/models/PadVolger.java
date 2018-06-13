@@ -1,10 +1,10 @@
 package models;
 import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
-import lejos.robotics.Color;
-import lejos.utility.Delay;
+
 /**
- *  author: Renke/Bastiën
+ * @author: Renke/Bastiën
+ * deze class is gemaakt om een lijn te kunnen volgen
  */
 import tools.ColorTools;
 
