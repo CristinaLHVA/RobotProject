@@ -7,8 +7,8 @@ package models;
 
 public class MultiThread extends TakenModule {
 
-	PadVolger padVolger;
-	MusicPlayer musicPlayer;
+	private PadVolger padVolger;
+	private MusicPlayer musicPlayer;
 
 	public MultiThread() {// Een MultiThread wordt altijd gemaakt met een MusicPlayer om de muziek af te
 							// spelen en een Padvolger om het pad te volgen

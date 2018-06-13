@@ -39,28 +39,27 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	}
 
 	// hieronder volgen de losstaande melodieën die aangeroepen worden bij RPS
-	// Vooralsnog geprobeerd om constanten aan te maken van de tonen, echter,
-	// Eclipse beweert dan dat er duplicate fields zijn
-	public void sadMel() {
+
+	public void sadMel() { //Speelt een verdrietig melodietje
 		Sound.playTone(C, shortDur, defaultVol);
 		Sound.playTone(B, shortDur, defaultVol);
 		Sound.playTone(Bb, shortDur, defaultVol);
 		Sound.playTone(A, shortDur, defaultVol);
 	}
 
-	public void happyMel() {
+	public void happyMel() { //Speelt een blij melodietje
 		Sound.playTone(C, midDur, defaultVol);
 		Sound.playTone(C, shortDur, defaultVol);
 		Sound.playTone(C, shortDur, defaultVol);
 		Sound.playTone(G, longDur, defaultVol);
 	}
 
-	public void neutralMel() {
+	public void neutralMel() { //Speelt een neutraal melodietje
 		Sound.playTone(C, midDur, defaultVol);
 		Sound.playTone(A, midDur, defaultVol);
 	}
 
-	public void bewegingKlaarMel() {
+	public void bewegingKlaarMel() { //Speelt een notificatie
 		Sound.playTone(C, midDur, defaultVol);
 		Sound.playTone(D, midDur, defaultVol);
 		Sound.playTone(F, midDur, defaultVol);

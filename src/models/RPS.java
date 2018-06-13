@@ -11,9 +11,14 @@ import tools.InfraroodTools;
 
 public class RPS extends TakenModule implements Runnable {
 
-	final static int PAPIERHOEK = 1800; // deze waarde is puur op de gok, wanneer deze verandert moet dit ook hieronder
-										// veranderd worden
-	public final static int MAXRONDES = 3;
+	public final static int PAPIERHOEK = 1800;
+	public final static int MAX_RONDES = 3;
+	public final static int MAX_HAND_OPTIES = 3;
+	public final static int INT_CORRECTIE = 1;
+	public final static int MIN_DELAY = 500;
+	public final static int MAX_DELAY = MIN_DELAY * 3;
+	public final static int DEFAULT_POWER = 50;
+	public final static int SLOW_POWER = DEFAULT_POWER /2;
 	private int scoreTegenspeler;
 	private int scoreRobbie;
 	private int aantalRondes = 0;
@@ -35,7 +40,7 @@ public class RPS extends TakenModule implements Runnable {
 
 	//Start RPS
 	public void voerUit() {
-		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
+		while (aantalRondes < MAX_RONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
 			System.out.println("Druk op enter om de ronde te starten");
 			Button.ENTER.waitForPress();
 			rpsGrijper.open(); // Het Robbie-equivalent van 1... 2... GO!
@@ -56,7 +61,7 @@ public class RPS extends TakenModule implements Runnable {
 			// als de meting eronder komt, start het programma (dan heeft hij je hand
 			// gezien)
 
-			robbieHand = (int) (Math.random() * 3) + 1;
+			robbieHand = (int) (Math.random() * MAX_HAND_OPTIES) + INT_CORRECTIE;
 			switch (robbieHand) {
 			case 1:
 				System.out.println("Schaar blijft schaar"); // schaar
@@ -126,29 +131,29 @@ public class RPS extends TakenModule implements Runnable {
 		// robbie zal nee schudden, zich omdraaien en wegrijden. Daarnaast schiet hij
 		// met zijn kanon en druipt hij langzaam af...
 		
-		// we kunnen hier nog aparte methods voor maken. nee schudden, kanon afschieten terwijl hij beweegt en afdruipen
-		verplaatsen.motorPower(50, -50);
+		// we kunnen hier nog aparte methods voor maken. Nee schudden, kanon afschieten terwijl hij beweegt en afdruipen
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER);
 		verplaatsen.rijVooruit();
-		Delay.msDelay(500);
-		verplaatsen.motorPower(-50, 50);
+		Delay.msDelay(MIN_DELAY);
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER);
 		verplaatsen.rijVooruit();
-		Delay.msDelay(500);
-		verplaatsen.motorPower(50, -50);
+		Delay.msDelay(MIN_DELAY);
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER);
 		verplaatsen.rijVooruit();
-		Delay.msDelay(500);
-		verplaatsen.motorPower(-50, 50);
+		Delay.msDelay(MIN_DELAY);
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER);
 		verplaatsen.rijVooruit();
-		Delay.msDelay(1900); // deze draai moeten we nog even goed bepalen
+		Delay.msDelay(MAX_DELAY); // deze draai moeten we nog even goed bepalen
 		kanon.voerUit();
-		verplaatsen.motorPower(50, -50);
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER);
 		verplaatsen.rijVooruit();
-		Delay.msDelay(700);
+		Delay.msDelay(MIN_DELAY);
 		kanon.voerUit();
-		verplaatsen.motorPower(-50, 50);
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER);
 		verplaatsen.rijVooruit();
-		Delay.msDelay(500);
+		Delay.msDelay(MIN_DELAY);
 		kanon.voerUit();
-		verplaatsen.motorPower(25, 25);
+		verplaatsen.motorPower(SLOW_POWER, SLOW_POWER);
 		while (Button.ENTER.isUp()) {
 			verplaatsen.rijVooruit();
 		}
