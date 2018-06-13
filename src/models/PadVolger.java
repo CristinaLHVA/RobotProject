@@ -1,7 +1,7 @@
 package models;
 import lejos.hardware.Button;
 import lejos.hardware.port.SensorPort;
-
+import lejos.utility.Delay;
 /**
  * @author: Renke/Bastiën
  * deze class is gemaakt om een lijn te kunnen volgen
