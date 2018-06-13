@@ -23,7 +23,8 @@ public class PadVolger extends TakenModule implements Runnable {
 										//Hiertussen ligt de sweetspot waar Robbie continu naar moet streven
 	public static final double MIN_LICHT = 0.42; //de minste hoeveelheid intensiteit voor we het wit noemen
 	public static final int ACHTERUITPOWER = 100;
-	public static final int MAX_TIJD_VAN_PAD = 10000;
+	public static final int MAX_TIJD_VAN_PAD = 10000; // maximum aantal loops
+	public static final int MACHTSFACTOR = -5;
 
 	public PadVolger() {
 		this.padSensor = new ColorTools(SensorPort.S1);
@@ -47,7 +48,7 @@ public class PadVolger extends TakenModule implements Runnable {
 		while (Button.UP.isUp()){
 			setVermogenBocht(30);
 			setVermogenRechtdoor(30);
-			rijPad();
+			rij();
 		}
 //		System.out.println("vanPadTimer: " + vanPadTimer);
 //		System.out.println("spiraalTimer: " + spiraalTimer);
@@ -73,7 +74,7 @@ public class PadVolger extends TakenModule implements Runnable {
 		leesLicht();
 		if (intensiteit > MIN_LICHT) {
 			spiraalTimer++;
-			verplaatsen.motorPower((int) (((-2/Math.pow(spiraalTimer, 5)) + 1) * vermogenBocht), vermogenBocht);
+			verplaatsen.motorPower((int) (spiraalVerhouding() * vermogenBocht), vermogenBocht);
 			verplaatsen.rijVooruit();
 		}
 		else {
@@ -82,6 +83,12 @@ public class PadVolger extends TakenModule implements Runnable {
 		}
 		
 	}
+
+//	maakt een asymptoot die 1 benadert: hoe hoger de spiraalTimer, hoe flauwer de bocht dus wordt
+	private double spiraalVerhouding() {
+		return (-2/Math.pow(spiraalTimer, MACHTSFACTOR)) + 1;
+	}
+	
 	
 //	rijdt over de rechterrand van een zwarte lijn op witte achtergrond
 	public void rijPad() {
