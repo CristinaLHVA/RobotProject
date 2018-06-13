@@ -6,7 +6,7 @@ import tools.InfraroodTools;
 
 /**
  *@author: Bastiën / Renke
- *deze class voert Rock Paper, Siscors uit
+ *deze class voert Rock Paper, Scissors uit
  */
 
 public class RPS extends TakenModule implements Runnable {
@@ -20,19 +20,20 @@ public class RPS extends TakenModule implements Runnable {
 	private float range;
 	private int robbieHand;
 	private GrijperMotor rpsGrijper;
-	private Verplaatsen eindeSpelBeweging;
+	private Verplaatsen verplaatsen;
 	private InfraroodTools handSensor;
 	private Kanon kanon;
 	private MusicPlayer musicPlayer;
 
 	public RPS() {
 		this.rpsGrijper = new GrijperMotor();
-		this.eindeSpelBeweging = new Verplaatsen();
+		this.verplaatsen = new Verplaatsen();
 		this.handSensor = new InfraroodTools(SensorPort.S2);
 		this.kanon = new Kanon();
 		this.musicPlayer = new MusicPlayer();
 	}
 
+	//Start RPS
 	public void voerUit() {
 		while (aantalRondes < MAXRONDES || scoreRobbie == scoreTegenspeler) { // Maximaal aantal rondes = 3
 			System.out.println("Druk op enter om de ronde te starten");
@@ -43,7 +44,7 @@ public class RPS extends TakenModule implements Runnable {
 			handSensor.setMode(0);
 
 			try {
-				range = handSensor.getRange();// hiermee voer ik de eerste meting uit, zonder die try/catch geeft hij af
+				range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit, zonder die try/catch geeft hij af
 												// en toe een foutmelding aan het einde van het programma
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -59,15 +60,15 @@ public class RPS extends TakenModule implements Runnable {
 			switch (robbieHand) {
 			case 1:
 				System.out.println("Schaar blijft schaar"); // schaar
-				musicPlayer.bewegingKlaarToon();
+				musicPlayer.bewegingKlaarMel();
 				break;
 			case 2:
 				rpsGrijper.open(PAPIERHOEK); // papier
-				musicPlayer.bewegingKlaarToon();
+				musicPlayer.bewegingKlaarMel();
 				break;
 			case 3:
 				rpsGrijper.sluit(); // steen
-				musicPlayer.bewegingKlaarToon();
+				musicPlayer.bewegingKlaarMel();
 				break;
 			}
 			System.out.println("Wie heeft er gewonnen?");
@@ -89,16 +90,16 @@ public class RPS extends TakenModule implements Runnable {
 			switch (robbieHand) {
 			case 1:
 				rpsGrijper.sluit();
-				musicPlayer.bewegingKlaarToon();
+				musicPlayer.bewegingKlaarMel();
 				break;
 			case 2:
 				rpsGrijper.sluit(PAPIERHOEK + GrijperMotor.OPENINGSROTATIE);// opening resetten en teruggaan naar
 																			// openingsrotatie
-				musicPlayer.bewegingKlaarToon();
+				musicPlayer.bewegingKlaarMel();
 				break;
 			case 3:
 				System.out.println("Was al steen, dus blijft gesloten");
-				musicPlayer.bewegingKlaarToon();
+				musicPlayer.bewegingKlaarMel();
 				break;
 			}
 			aantalRondes++;
@@ -114,8 +115,8 @@ public class RPS extends TakenModule implements Runnable {
 
 	public void juich() {
 		while (Button.ENTER.isUp()) {
-			eindeSpelBeweging.motorPower(100, -100);
-			eindeSpelBeweging.rijVooruit();
+			verplaatsen.motorPower(100, -100);
+			verplaatsen.rijVooruit();
 			rpsGrijper.open();
 			rpsGrijper.sluit();
 		}
@@ -123,36 +124,38 @@ public class RPS extends TakenModule implements Runnable {
 
 	public void weesVerdrietig() {
 		// robbie zal nee schudden, zich omdraaien en wegrijden. Daarnaast schiet hij
-		// met zijn kanon
-		eindeSpelBeweging.motorPower(50, -50);
-		eindeSpelBeweging.rijVooruit();
+		// met zijn kanon en druipt hij langzaam af...
+		
+		// we kunnen hier nog aparte methods voor maken. nee schudden, kanon afschieten terwijl hij beweegt en afdruipen
+		verplaatsen.motorPower(50, -50);
+		verplaatsen.rijVooruit();
 		Delay.msDelay(500);
-		eindeSpelBeweging.motorPower(-50, 50);
-		eindeSpelBeweging.rijVooruit();
+		verplaatsen.motorPower(-50, 50);
+		verplaatsen.rijVooruit();
 		Delay.msDelay(500);
-		eindeSpelBeweging.motorPower(50, -50);
-		eindeSpelBeweging.rijVooruit();
+		verplaatsen.motorPower(50, -50);
+		verplaatsen.rijVooruit();
 		Delay.msDelay(500);
-		eindeSpelBeweging.motorPower(-50, 50);
-		eindeSpelBeweging.rijVooruit();
+		verplaatsen.motorPower(-50, 50);
+		verplaatsen.rijVooruit();
 		Delay.msDelay(1900); // deze draai moeten we nog even goed bepalen
 		kanon.voerUit();
-		eindeSpelBeweging.motorPower(50, -50);
-		eindeSpelBeweging.rijVooruit();
+		verplaatsen.motorPower(50, -50);
+		verplaatsen.rijVooruit();
 		Delay.msDelay(700);
 		kanon.voerUit();
-		eindeSpelBeweging.motorPower(-50, 50);
-		eindeSpelBeweging.rijVooruit();
+		verplaatsen.motorPower(-50, 50);
+		verplaatsen.rijVooruit();
 		Delay.msDelay(500);
 		kanon.voerUit();
-		eindeSpelBeweging.motorPower(25, 25);
+		verplaatsen.motorPower(25, 25);
 		while (Button.ENTER.isUp()) {
-			eindeSpelBeweging.rijVooruit();
+			verplaatsen.rijVooruit();
 		}
 	}
 
 	public void stop() {
-		eindeSpelBeweging.stop();
+		verplaatsen.stop();
 		handSensor.close();
 		rpsGrijper.stop();
 	}

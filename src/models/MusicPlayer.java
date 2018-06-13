@@ -46,7 +46,7 @@ public class MusicPlayer extends TakenModule implements Runnable {
 		Sound.playTone(440, 333, 75);
 	}
 
-	public void bewegingKlaarToon() {
+	public void bewegingKlaarMel() {
 		Sound.playTone(523, 333, 75);
 		Sound.playTone(587, 333, 75);
 		Sound.playTone(698, 333, 75);
