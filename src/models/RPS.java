@@ -15,10 +15,13 @@ public class RPS extends TakenModule implements Runnable {
 	public final static int MAX_RONDES = 3;
 	public final static int MAX_HAND_OPTIES = 3;
 	public final static int INT_CORRECTIE = 1;
-	public final static int MIN_DELAY = 500;
+	public final static int MIN_DELAY = 1500;
 	public final static int MAX_DELAY = MIN_DELAY * 3;
 	public final static int DEFAULT_POWER = 50;
+	public final static int FULL_POWER = DEFAULT_POWER * 2;
 	public final static int SLOW_POWER = DEFAULT_POWER /2;
+	public final static int MIN_RANGE = 100;
+	public final static int RANGE_MODE = 0;
 	private int scoreTegenspeler;
 	private int scoreRobbie;
 	private int aantalRondes = 0;
@@ -46,7 +49,7 @@ public class RPS extends TakenModule implements Runnable {
 			rpsGrijper.open(); // Het Robbie-equivalent van 1... 2... GO!
 			rpsGrijper.sluit();
 			rpsGrijper.open();
-			handSensor.setMode(0);
+			handSensor.setMode(RANGE_MODE);
 
 			try {
 				range = handSensor.getRange();// hiermee voert Robbie de eerste meting uit, zonder die try/catch geeft hij af
@@ -55,7 +58,7 @@ public class RPS extends TakenModule implements Runnable {
 				e.printStackTrace();
 			}
 
-			while (!(range < 100)) { // zolang die meting niet minder is dan 100 blijft hij opnieuw meten
+			while (!(range < MIN_RANGE)) { // zolang die meting niet minder is dan 100 blijft hij opnieuw meten
 				range = handSensor.getRange();
 			}
 			// als de meting eronder komt, start het programma (dan heeft hij je hand
@@ -120,7 +123,8 @@ public class RPS extends TakenModule implements Runnable {
 
 	public void juich() {
 		while (Button.ENTER.isUp()) {
-			verplaatsen.motorPower(100, -100);
+			musicPlayer.happyMel();
+			verplaatsen.motorPower(FULL_POWER, -FULL_POWER);
 			verplaatsen.rijVooruit();
 			rpsGrijper.open();
 			rpsGrijper.sluit();
@@ -130,30 +134,27 @@ public class RPS extends TakenModule implements Runnable {
 	public void weesVerdrietig() {
 		// robbie zal nee schudden, zich omdraaien en wegrijden. Daarnaast schiet hij
 		// met zijn kanon en druipt hij langzaam af...
-		
-		// we kunnen hier nog aparte methods voor maken. Nee schudden, kanon afschieten terwijl hij beweegt en afdruipen
-		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER);
+		musicPlayer.sadMel();
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER); //Links
 		verplaatsen.rijVooruit();
 		Delay.msDelay(MIN_DELAY);
-		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER);
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER); //Rechts
 		verplaatsen.rijVooruit();
 		Delay.msDelay(MIN_DELAY);
-		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER);
+		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER); //Links
 		verplaatsen.rijVooruit();
 		Delay.msDelay(MIN_DELAY);
-		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER);
+		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER); //Rechts
 		verplaatsen.rijVooruit();
-		Delay.msDelay(MAX_DELAY); // deze draai moeten we nog even goed bepalen
-		kanon.voerUit();
-		verplaatsen.motorPower(DEFAULT_POWER, -DEFAULT_POWER);
-		verplaatsen.rijVooruit();
-		Delay.msDelay(MIN_DELAY);
-		kanon.voerUit();
-		verplaatsen.motorPower(-DEFAULT_POWER, DEFAULT_POWER);
-		verplaatsen.rijVooruit();
-		Delay.msDelay(MIN_DELAY);
-		kanon.voerUit();
+		Delay.msDelay(MAX_DELAY); //Omdraaien
 		verplaatsen.motorPower(SLOW_POWER, SLOW_POWER);
+		verplaatsen.rijVooruit();  //Langzaam "boos" rijden
+		kanon.voerUit(); //Kanon afschieten
+		Delay.msDelay(MIN_DELAY);
+		kanon.voerUit();
+		Delay.msDelay(MIN_DELAY);
+		kanon.voerUit();
+		
 		while (Button.ENTER.isUp()) {
 			verplaatsen.rijVooruit();
 		}
