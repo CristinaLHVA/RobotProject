@@ -20,9 +20,9 @@ import lejos.utility.Delay;
 public class InfraroodTools implements RangeFinder {
 
 	private static final int OFFSET = 0;
-	EV3IRSensor sensor;
-	SampleProvider sp;
-	float[] sample;
+	private EV3IRSensor sensor;
+	private SampleProvider sp;
+	public float[] sample;
 	private static final int HALF_SECOND = 500;
 	private static final int ITERATION_THRESHOLD = 10;
 

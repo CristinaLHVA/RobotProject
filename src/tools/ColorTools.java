@@ -15,8 +15,8 @@ import lejos.robotics.ColorIdentifier;
 
 public class ColorTools implements ColorDetector, ColorIdentifier {
 
-	EV3ColorSensor sensor;
-	float[] sample;
+	private EV3ColorSensor sensor;
+	public float[] sample;
 	private static final int OFFSET = 0;
 
 	// Constructor die een nieuw sensor object aan maakt en de poort waarop

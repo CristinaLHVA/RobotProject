@@ -55,7 +55,7 @@ public class PadVolger extends TakenModule implements Runnable {
 		}
 //		System.out.println("vanPadTimer: " + vanPadTimer);
 //		System.out.println("spiraalTimer: " + spiraalTimer);
-		Button.ENTER.waitForPress();
+//		Button.ENTER.waitForPress();
 	}
 	
 //	meet de lichtsterkte
