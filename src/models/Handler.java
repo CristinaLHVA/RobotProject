@@ -88,7 +88,7 @@ public class Handler extends TakenModule {
 
 	// Methode om te rijden tussen handelingen
 	public void wegRijden(int delay) {
-		// Rijden + 'beer beer beer' afspelen		
+		// Rijden + 'beer beer beer' afspelen
 		beweeg.motorPower(HOGE_SNELHEID, HOGE_SNELHEID);// rijdt terug
 		beweeg.rijVooruit();
 		Delay.msDelay(delay);
@@ -224,7 +224,7 @@ public class Handler extends TakenModule {
 		// Pak de beacon op
 		grijpen(4000);
 		// Rij weg met de beacon
-		beer.playBeerSong();
+		// beer.playBeerSong();
 		wegRijden(5000);
 		// Zet de beacon weer neer
 		neerzetten();
