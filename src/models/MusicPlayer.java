@@ -36,6 +36,10 @@ public class MusicPlayer extends TakenModule implements Runnable {
 	public void playPadVolgerTheme() {
 		Sound.playSample(new File("bttfmono.wav"));
 	}
+	
+	public void playBeerSong() {
+		Sound.playSample(new File("Beerx3Mono8b.wav"));
+	}
 
 	// hieronder volgen de losstaande melodieën die aangeroepen worden bij RPS
 
