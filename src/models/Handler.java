@@ -22,7 +22,7 @@ public class Handler extends TakenModule {
 	private InfraroodTools irSensor;
 	private Verplaatsen beweeg = new Verplaatsen();
 	private GrijperMotor grijper = new GrijperMotor();
-	private File beer = new File("Beerx3Mono8b.wav");
+	private MusicPlayer beer;
 	private final static int DISTANCE_CHANNEL = 3;
 	private final static int HEADING_CHANNEL = 2;
 	private final static int CORRECTIE_THRESHOLD = 2;
@@ -31,12 +31,13 @@ public class Handler extends TakenModule {
 	private final static int GEMIDDELDE_SNELHEID = 30;
 	private final static int HOGE_SNELHEID = 50;
 	private final static int BEACON_NEAR = 5;
-	float heading = 0;
-	float distance = 0;
+	private float heading = 0;
+	private float distance = 0;
 
 	// Constructor van de klasse die tegelijkertijd een sensor object aanmaakt
 	public Handler() {
 		this.irSensor = new InfraroodTools(SensorPort.S2);
+		this.beer = new MusicPlayer();
 	}
 
 	// Methode om de robot te laten stoppen met rijden
@@ -87,10 +88,9 @@ public class Handler extends TakenModule {
 
 	// Methode om te rijden tussen handelingen
 	public void wegRijden(int delay) {
-		// Rijden + 'beer beer beer' afspelen
+		// Rijden + 'beer beer beer' afspelen		
 		beweeg.motorPower(HOGE_SNELHEID, HOGE_SNELHEID);// rijdt terug
 		beweeg.rijVooruit();
-		// Sound.playSample(beer, 100);
 		Delay.msDelay(delay);
 	}
 
@@ -106,6 +106,14 @@ public class Handler extends TakenModule {
 		Sound.beepSequence();
 		Delay.msDelay(5000);
 		Button.LEDPattern(0);
+	}
+
+	// Methode om te bepalen waar de beacon is
+	public void updateLocation() {
+		// Vraag de richting van de beacon op
+		heading = irSensor.getBeacon()[HEADING_CHANNEL];
+		// Vraag de afstand tot de beacon op
+		distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
 	}
 
 	// Methode om een voorwerp op te pakken en te verplaatsen
@@ -141,20 +149,13 @@ public class Handler extends TakenModule {
 		finishedTheShow();
 	}
 
-	// Methode om te bepalen waar de beacon is
-	public void updateLocation() {
-		// Vraag de richting van de beacon op
-		heading = irSensor.getBeacon()[HEADING_CHANNEL];
-		// Vraag de afstand tot de beacon op
-		distance = irSensor.getBeacon()[DISTANCE_CHANNEL];
-	}
-
 	// Methode om de beacon op te pakken en te verplaatsen (met sturen)
 	public void zoekVoorwerp() {
 		// Sensor in beacon modus zetten
 		irSensor.setMode(1);
 		// Afstand en richting van beacon opvragen
 		updateLocation();
+		Delay.msDelay(1000);
 		// Melding om aan te geven dat de functie start
 		readyToGo();
 		// Begin met rijden
@@ -223,6 +224,7 @@ public class Handler extends TakenModule {
 		// Pak de beacon op
 		grijpen(4000);
 		// Rij weg met de beacon
+		beer.playBeerSong();
 		wegRijden(5000);
 		// Zet de beacon weer neer
 		neerzetten();
@@ -230,15 +232,73 @@ public class Handler extends TakenModule {
 		finishedTheShow();
 	}
 
-	// Methode overgekomen uit de super klasse om een van beide functies te
+	// Methode om de beacon op te pakken en te verplaatsen (met sturen) -- LANGZAAM
+	public void zoekVoorwerpLangzaam() {
+		// Sensor in beacon modus zetten
+		irSensor.setMode(1);
+		// Afstand en richting van beacon opvragen
+		updateLocation();
+		Delay.msDelay(1000);
+		// Melding om aan te geven dat de functie start
+		readyToGo();
+		// Begin met rijden
+		wegRijden(2000);
+
+		// Rijden richting de beacon
+		while (distance > BEACON_NEAR) {
+			int power;
+			int correctieFactor = 2;
+			int distance_threshold = 20;
+
+			// Blijf doorrijden zolang de beacon buiten een bepaald bereik is
+			power = LAGE_SNELHEID;
+			if (heading < -CORRECTIE_THRESHOLD) {
+				// Stuurt bij op hoge snelheid als de beacon links staat en vraag nieuwe locatie
+				beweeg.motorPower((int) (power + (correctieFactor * heading)), power);
+				beweeg.rijVooruit();
+				updateLocation();
+				System.out.println("Heading: " + heading + "Distance: " + distance);
+			} else if (heading > CORRECTIE_THRESHOLD) {
+				// Stuurt bij op hoge snelheid als de beacon rechts staat en vraag nieuwe
+				// locatie
+				beweeg.motorPower(power, (int) (power - (correctieFactor * heading)));
+				beweeg.rijVooruit();
+				updateLocation();
+				System.out.println("Heading: " + heading + "Distance: " + distance);
+			} else {
+				// Rij rechtdoor op hoge snelheid en vraag nieuwe locatie
+				beweeg.motorPower(power, power);
+				beweeg.rijVooruit();
+				updateLocation();
+				System.out.println("Heading: " + heading + "Distance: " + distance);
+			}
+		}
+
+		// Stop met rijden voor de beacon
+		stopRijden();
+		Sound.beepSequenceUp();
+		Button.LEDPattern(9);
+		// Pak de beacon op
+		grijpen(4000);
+		// Rij weg met de beacon
+		wegRijden(5000);
+		// Zet de beacon weer neer
+		neerzetten();
+		// Melding om aan te geven dat de functie stopt
+		finishedTheShow();
+	}
+
+	// Methode overgekomen uit de super klasse om een van de functies te
 	// activeren
+
 	@Override
 	public void voerUit() {
 		int knop = 0;
 		// Luister naar een knop om een van beide mogelijkheden te selecteren
 		while (knop != Button.ID_ESCAPE) {
 			// Print de keuzemogelijkheden op het scherm
-			System.out.printf("Druk \n-links voor Pak Voorwerp, \n-rechts voor Zoek Object" + "\n-escape voor stop");
+			System.out.printf("Druk \n-links voor Pak Voorwerp, \n-rechts voor Zoek Object" + "\nbeneden voor Langzaam"
+					+ "\n-escape voor stop");
 			knop = Button.waitForAnyPress();
 			// Als de knop naar links word ingedrukt, doe pakVoorwerp
 			if (knop == Button.ID_LEFT) {
@@ -246,7 +306,12 @@ public class Handler extends TakenModule {
 				stop();
 			}
 			// Als de knop naar rechts word ingedrukt, doe zoekVoorwerp
-			if (knop == Button.ID_RIGHT) {
+			else if (knop == Button.ID_RIGHT) {
+				zoekVoorwerp();
+				stop();
+			}
+			// Als de knop naar rechts word ingedrukt, doe zoekVoorwerpLangzaam
+			else if (knop == Button.ID_DOWN) {
 				zoekVoorwerp();
 				stop();
 			}
