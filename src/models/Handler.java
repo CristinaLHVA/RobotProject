@@ -312,7 +312,7 @@ public class Handler extends TakenModule {
 			}
 			// Als de knop naar rechts word ingedrukt, doe zoekVoorwerpLangzaam
 			else if (knop == Button.ID_DOWN) {
-				zoekVoorwerp();
+				zoekVoorwerpLangzaam();
 				stop();
 			}
 		}
