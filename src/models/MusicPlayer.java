@@ -9,8 +9,6 @@ import lejos.hardware.Sound;
 
 public class MusicPlayer extends TakenModule implements Runnable {
 
-	public final static int RPS_MODE = 1;
-	public final static int PADVOLGER_MODE = 2;
 	public final static int A2 = 880;
 	public final static int G = 784;
 	public final static int E = 659;
