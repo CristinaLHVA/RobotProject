@@ -112,8 +112,7 @@ public class RPS extends TakenModule implements Runnable {
 		if (scoreRobbie > scoreTegenspeler) { // Robbie gaat juichen!
 			juich();
 		} else
-			weesVerdrietig();
-		stop();
+			weesVerdrietig(); //Robbie is verdrietig
 	}
 
 	private int getHand() {
@@ -152,7 +151,6 @@ public class RPS extends TakenModule implements Runnable {
 		kanon.voerUit(); // Kanon afschieten
 		Delay.msDelay(MAX_DELAY);
 		kanon.voerUit();
-		Delay.msDelay(MAX_DELAY);
 
 		while (Button.ENTER.isUp()) {
 			verplaatsen.rijVooruit();

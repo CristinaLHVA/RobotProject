@@ -9,7 +9,6 @@ import lejos.hardware.Sound;
 
 public class MusicPlayer extends TakenModule implements Runnable {
 
-	int mode;
 	public final static int RPS_MODE = 1;
 	public final static int PADVOLGER_MODE = 2;
 	public final static int A2 = 880;
@@ -35,6 +34,10 @@ public class MusicPlayer extends TakenModule implements Runnable {
 
 	public void playPadVolgerTheme() {
 		Sound.playSample(new File("bttfmono.wav"));
+	}
+	
+	public void playBeerSong() {
+		Sound.playSample(new File("Beerx3Mono8b.wav"));
 	}
 
 	// hieronder volgen de losstaande melodieën die aangeroepen worden bij RPS
